@@ -1,5 +1,5 @@
 ---
-title: "Demo Portfolio for Computational Musicology 2026"
+title: "Computational Musicology 2026"
 author: "John Ashley Burgoyne"
 date: "Block 4"
 format:
@@ -9,7 +9,7 @@ format:
 
 # Welcome to Computational Musicology!
 
-## Column {width=30%}
+## Column {width=40%}
 
 ### Row {height=20%}
 
@@ -25,7 +25,7 @@ You can access the lecture notes at the following links.
   - [Week 7 · Computational Musicology and (Audio) Visualisation](./notes/compmus2026-w07.html)
 :::
 
-## Column {width=70%}
+## Column {width=60%}
 
 ### Row {.tabset}
 
