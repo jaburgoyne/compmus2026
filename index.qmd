@@ -1,0 +1,108 @@
+---
+title: "Demo Portfolio for Computational Musicology 2026"
+author: "John Ashley Burgoyne"
+date: "Block 4"
+format:
+  dashboard:
+    orientation: columns
+---
+
+# Welcome to Computational Musicology!
+
+## Column {width=30%}
+
+### Row {height=20%}
+
+::: {.card}
+Welcome to Computational Musicology 2026! This dashboard contains further examples from each week to inspire you.
+:::
+
+### Row {height=80%}
+
+::: {.card title="Lecture Notes"}
+You can access the lecture notes at the following links.
+
+  - [Week 7 · Computational Musicology and (Audio) Visualisation](./notes/compmus2026-w07.html)
+:::
+
+## Column {width=70%}
+
+### Row {.tabset}
+
+::: {.card title="What makes a good corpus?"}
+
+You will work a corpus of your choice throughout the course and build up an online portfolio of quantitative musical analyses. Remember that the question _Compared to what?_ hangs over all quantitative results, and so be sure to choose a corpus that allows for meaningful – but not _too_ obvious – comparisons and contrasts. Most students end up with a corpus that has 2–5 obvious groups they can compare: see a list of examples below.
+
+The size of the corpus is not important _per se_: with computational tools, it is just as easy to work with 1000 tracks as it is to work with 10. Practically speaking, you will need at least 50–100 tracks in your corpus in order to make meaningful comparisons. At the other extreme, if your corpus gets up to 10 thousand tracks or more, computations and visualisations will probably run too slowly to be usable for an online portfolio. But anything in between can work.
+
+You also will want a few 'highlight' tracks that you can focus on for more in-depth analysis of harmony, structure, and rhythm. These could be your favourites, a good representative of each group, or even a very oddball track that shows something interesting about how the Spotify API works!
+
+Here is a non-exclusive list of examples, combined with questions that (by the end of the course) you could explore.
+
+*   Geographic Region
+    *   Portugal and Brazil share a common language but have distinctly different cultures. Is there a difference in style preferences for pop music between the countries? Find recent charts – or use Spotify’s regional charts – and use a corpus including both.
+    *   K- and J-pop is increasingly popular outside of Asia. How much does the sound of K- and J-pop boy- or girl-bands differ from their European counterparts? Choose a selection of albums, artists, or playlists from each group based on what is popular on Spotify or external sources.
+*   Label or Studio
+    *   How did Motown’s competitors differ in style during its heyday? Research the most popular Motown albums, identify competitors, and make a corpus including a selection from Motown and several major competing labels.
+    *   Phil Spector’s ‘Wall of Sound’ was thought to be revolutionary – but how different does it sound, really? Make a corpus balancing a number of tracks produced Phil Spector with tracks of comparable popularity from the same time period.
+*   Genre
+    *   Every Noise at Once compares genres with surprisingly detailed names. Choose two or more genres from Every Noise at Once and try to clarify how they differ.
+    *   Fans of heavy metal are notorious for the complexity of their understanding of sub-genres. Can Spotify measure them? Find a reliable classification of heavy-metal subgenres, make a selection of tracks of two or more of these subgenres, and look for similarities and differences.
+    *   How does hip-hop from the 1990s differ from hip-hop today? Find reliable playlists or make your own selection of recent and older hip-hop and look for differences within and between the time periods.
+*   Composer or Artist _N.B.: Spotify’s ‘This Is:’ and ‘Composer Weekly’ series are especially helpful here._
+    *   Cher has reinvented herself many times. How has her style changed over time? Look at the audio features for each major album, and see if you can cluster them into distinct style periods.
+    *   How does the harpsichord music of Rameau differ from that of Couperin? Find representative albums for each composer – ideally from the same performer – and look for differences within and between the composers.
+    *   Beethoven’s piano sonatas have been interpreted and re-interpreted many times since the advent of recording technology. Choose a selection of sonatas and pianists, and make a corpus including all of the relevant performances in Spotify. How well can Spotify measure the difference between pianists?
+*   Playlist
+    *   What does it mean to be a ‘workout’ playlist? Find several examples of workout playlists on Spotify and comparable playlists without the workout label. Is there a measurable difference between the groups?
+    *   Spotify Wrapped allows you to download a list of everything you listened to last year. How does your list compare to your parents’, friends’, or partner’s? 
+*   Album
+    *   Which Madonna albums were the most commercially successful? Does the commercial success correspond in any way to features computable from Spotify?
+    *   Is the album still a meaningful concept? For your favourite artist, check whether the songs within albums are more similar to each other than songs on different albums. Is there a measurable pattern or formula for predicting which track will be first or last?
+*   Piece
+    *   Jazz standards like Gershwin’s ‘Summertime’ have been covered by countless artists. Make as complete a list as possible from the Spotify catalogue. How do the covers differ from each other? Is it possible to cluster the covers into groups? How could you interpret those clusters?
+    *   Mozart’s 40th Symphony is one of the best known pieces of classical music, and there are at least 40 version of it on Spotify. Are there any differences between them? Is there a measurable difference between performances on major classical labels versus performances from lesser-known artists?
+
+:::
+
+::: {.card title="What kind of portfolio do I need to create?"}
+
+Your portfolio will be a 5–10-page dashboard, using data from the [Spotify API](https://developer.spotify.com) and more detailed analyses of the audio of specific tracks. Your dashboard should cover the following topics, but note that it is possible (and often desirable) for a single visualisation or tab to cover more than one topic.
+
+  - **Background**: Which tracks did you choose? Why? What questions will the dashboard answer?
+  - **Track-level features**: What insights into your corpus can be drawn from Spotify’s track-level features (valence, danceability, etc.)?
+  - **Chroma features** [pitch]: What insights into your corpus can be drawn from Spotify’s chroma features?
+  - **Loudness** [volume]: What insights into your corpus can be drawn from Spotify’s ‘loudness’ (power) features, either at the track level or the section level?
+  - **Timbre features** [timbre]: What insights into your corpus can be drawn from Spotify’s timbre features?
+  - **Temporal features** [duration]: What is notable, effective, or ineffective about structural segments, metre, rhythm, or beats in your corpus, as derived from Spotify features?
+  - **Classification/regression**: Where explicit labels in your corpus exist, how strong are Spotify features for classification or regression?
+  - **Clustering**: Where explicit labels in your corpus are lacking, which Spotify features generate potentially meaningful clusters?
+  - **Contribution**: What have you learned from this set of analyses? Who could these conclusions benefit, and how?
+
+Depending on your topic, you may want to start with a text-based opening like this one; alternatively, you could put your most compelling visualisation directly on the first tab and just use the commentary to introduce your corpus and research questions.
+
+:::
+
+::: {.card title="Spotify"}
+
+For many reasons, you will want to make a Spotify playlist of your corpus. Playlists make statistical analysis easier and also are easy to embed to make your portfolio more interactive.
+
+<iframe src="https://open.spotify.com/embed/playlist/4xnBi0S21rFHhhK0iGHpiS?utm_source=generator" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+:::
+
+::: {.card title="Grading"}
+
+The grading breakdown for the portfolio is as follows. The rubric was adapted from the Association of American Colleges and Universities (AAC&U) Inquiry and Analysis and Quantitative Literacy [VALUE rubrics](https://www.aacu.org/value-rubrics).
+
+| Component            | Points |
+|----------------------|:------:|
+| Corpus selection     |      6 |
+| Assumptions          |      6 |
+| Representation       |      6 |
+| Interpretation       |      6 |
+| Analysis             |      6 |
+| Presentation         |      6 |
+| Transfer of learning |      6 |
+
+:::

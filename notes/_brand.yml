@@ -1,0 +1,23 @@
+color:
+  primary: "#d843e2"
+  secondary: "#39d7b8"
+  success: "#39d7b8"
+  danger: "#fa5577"
+  warning: "#ffb14c"
+  info: "#0cc7f1"
+
+typography:
+  fonts:
+    - family: Rajdhani
+      source: google
+    - family: Fira Sans
+      source: google
+    - family: Fira Mono
+      source: google
+  headings:
+    family: Rajdhani
+    weight: bold
+  base:
+    family: Fira Sans
+  monospace:
+    family: Fira Mono
