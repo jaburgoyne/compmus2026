@@ -106,7 +106,7 @@ In this breakout session, you and your group will try to make the best visualisa
 
 ### Introduction
 
-Let's start by loading playlists from the recent [Grammy](https://open.spotify.com/playlist/37i9dQZF1DX5FyxM4IcLn6?si=8-3Qva-mRbqyEBbhRn6sTQ) and [Edison](https://open.spotify.com/playlist/37i9dQZF1DX5FyxM4IcLn6?si=8-3Qva-mRbqyEBbhRn6sTQ) awards. Save the Grammys as `grammy` and the Edisons as `edison`.
+Let's start by loading playlists from the recent [Grammy](https://open.spotify.com/playlist/37i9dQZF1DX5FyxM4IcLn6) and [Edison](https://open.spotify.com/playlist/3yvFKwXXX7uEFV36FYcrgm) awards. Save the Grammys as `grammy` and the Edisons as `edison`.
 
 ```{r}
 #| echo: false
