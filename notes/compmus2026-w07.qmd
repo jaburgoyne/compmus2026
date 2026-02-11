@@ -52,7 +52,7 @@ If you interacted with any young children in your life a few years ago, you also
 
 ### Introduction
 
-The first step to working with data is to choose a playlist on Spotify and add it to your personal playlist collection. Let's check into Soundway Records's ['Soundway Records Selects'](https://canvas.uva.nl/courses/58586/pages/sources-of-sometimes-good-data-visualisations?module_item_id=2714712). Open the link and add it to your Spotify library.
+The first step to working with data is to choose a playlist on Spotify and add it to your personal playlist collection. Let's check into Soundway Records's ['Soundway Records Selects'](https://open.spotify.com/playlist/3yvFKwXXX7uEFV36FYcrgm). Open the link and add it to your Spotify library.
 
 Once the playlist is saved, visit the [Exportify tool](https://exportify.net/) and export the playlist as a CSV file. Now you are ready to look at the features!
 
