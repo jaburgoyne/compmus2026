@@ -23,6 +23,7 @@ Welcome to Computational Musicology 2026! This dashboard contains further exampl
 You can access the lecture notes at the following links.
 
   - [Week 7 · Computational Musicology and (Audio) Visualisation](./notes/compmus2026-w07.html)
+  - [Week 8 · Chroma Features](./notes/compmus2026-w08.html)
 :::
 
 ## Column {width=60%}
