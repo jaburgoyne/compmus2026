@@ -68,7 +68,7 @@ library(tidyverse)
 library(compmus)
 ```
 
-One of the `compmus` helper functions, `compmus_wrangle_chroma()`, converts the data frames we import from Sonic Visualiser to a mroe useful format for analysis in this course.
+One of the `compmus` helper functions, `compmus_wrangle_chroma()`, converts the data frames we import from Sonic Visualiser to a more useful format for analysis in this course.
 
 Let's analyse a recording of Steve Reich's 'Music for Pieces of Wood' (well worth a listen if you don't know the piece). You can download a CSV file for this analysis [here](../dat/wood.csv); once we start making portfolios next week, we'll use code like the following example.
 

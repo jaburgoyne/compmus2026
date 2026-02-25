@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.6
+✔ dplyr     1.2.0     ✔ readr     2.2.0
 ✔ forcats   1.0.1     ✔ stringr   1.6.0
 ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
 ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
@@ -190,7 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(compmus)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>One of the <code>compmus</code> helper functions, <code>compmus_wrangle_chroma()</code>, converts the data frames we import from Sonic Visualiser to a mroe useful format for analysis in this course.</p>
+<p>One of the <code>compmus</code> helper functions, <code>compmus_wrangle_chroma()</code>, converts the data frames we import from Sonic Visualiser to a more useful format for analysis in this course.</p>
 <p>Let’s analyse a recording of Steve Reich’s ‘Music for Pieces of Wood’ (well worth a listen if you don’t know the piece). You can download a CSV file for this analysis <a href="../dat/wood.csv">here</a>; once we start making portfolios next week, we’ll use code like the following example.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wood <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../dat/wood.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
