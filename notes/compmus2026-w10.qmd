@@ -5,7 +5,7 @@ date: "4 March 2026"
 format: html
 ---
 
-You can download the raw source code for these lecture notes [here](compmus2024-w10.Rmd).
+You can download the raw source code for these lecture notes [here](compmus2026-w10.Rmd).
 
 ## Course Meeting Plan
 
@@ -102,7 +102,7 @@ Listen to the track and discuss the following questions.
   - What happens at about 3:00? Why does the pattern in the chordogram change?
   - What are the yellow bars?
   
-You can download the chroma features for this track [here]("../dat/grease-pitches.csv").
+You can download the chroma features for this track [here](../dat/grease-pitches.csv).
 
 ```{r}
 #| echo: FALSE
@@ -131,7 +131,7 @@ Listen to a little bit of the track and discuss the following questions.
   - What does the chordogram seem to say? Is Ravi Shankar using particular harmonies?
   - How could we improve MIR features to be more appropriate for this style of music?
   
-You can download the chroma features for this track [here]("../dat/dhun-pitches.csv").
+You can download the chroma features for this track [here](../dat/dhun-pitches.csv).
 
 ```{r, echo = FALSE}
 dhun <- read_csv("../dat/dhun-pitches.csv")
@@ -243,7 +243,7 @@ key_templates <-
 
 Armed with these templates, we can make chordograms and keygrams for individual pieces. Similar to previous weeks, we start by choosing a level of hierarchy and then summarise the chroma features a that level. Higher levels like `section` are more appropriate for key profiles; lower levels like `beat` are more appropriate for chord profiles.
 
-The following code fetches the analysis for Zager and Evans's 'In the Year 2525' (1969). You can download the chroma features for this track [here]("../dat/year-2525-pitches.csv").
+The following code fetches the analysis for Zager and Evans's 'In the Year 2525' (1969). You can download the chroma features for this track [here](../dat/year-2025-pitches.csv).
 
 
 ```{r}

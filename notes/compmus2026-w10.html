@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>You can download the raw source code for these lecture notes <a href="compmus2024-w10.Rmd">here</a>.</p>
+<p>You can download the raw source code for these lecture notes <a href="compmus2026-w10.Rmd">here</a>.</p>
 <section id="course-meeting-plan" class="level2">
 <h2 class="anchored" data-anchor-id="course-meeting-plan">Course Meeting Plan</h2>
 <section id="wednesday-4-march-lecture" class="level3">
@@ -174,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What happens at about 3:00? Why does the pattern in the chordogram change?</li>
 <li>What are the yellow bars?</li>
 </ul>
-<p>You can download the chroma features for this track <a href="%22../dat/grease-pitches.csv%22">here</a>.</p>
+<p>You can download the chroma features for this track <a href="../dat/grease-pitches.csv">here</a>.</p>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 6363 Columns: 13
@@ -209,7 +209,7 @@ dbl (13): TIME, A, Bb, B, C, C#, D, Eb, E, F, F#, G, Ab
 <li>What does the chordogram seem to say? Is Ravi Shankar using particular harmonies?</li>
 <li>How could we improve MIR features to be more appropriate for this style of music?</li>
 </ul>
-<p>You can download the chroma features for this track <a href="%22../dat/dhun-pitches.csv%22">here</a>.</p>
+<p>You can download the chroma features for this track <a href="../dat/dhun-pitches.csv">here</a>.</p>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 8379 Columns: 13
@@ -321,7 +321,7 @@ dbl (13): TIME, A, Bb, B, C, C#, D, Eb, E, F, F#, G, Ab
 <span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Armed with these templates, we can make chordograms and keygrams for individual pieces. Similar to previous weeks, we start by choosing a level of hierarchy and then summarise the chroma features a that level. Higher levels like <code>section</code> are more appropriate for key profiles; lower levels like <code>beat</code> are more appropriate for chord profiles.</p>
-<p>The following code fetches the analysis for Zager and Evans’s ‘In the Year 2525’ (1969). You can download the chroma features for this track <a href="%22../dat/year-2525-pitches.csv%22">here</a>.</p>
+<p>The following code fetches the analysis for Zager and Evans’s ‘In the Year 2525’ (1969). You can download the chroma features for this track <a href="../dat/year-2025-pitches.csv">here</a>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>twenty_five <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../dat/year-2025-pitches.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
