@@ -155,7 +155,7 @@ bzt |>
 
 ### Instructions
 
-1. Try different combinations of norms, distances, and summary statistics. Which seem to give the clearest visualisation?
+1. Try different norms. Which seem to give the clearest visualisation?
   
 2. Once you are happy with your choices, make cepstrograms for several other tracks from your corpus, and look for timbre components where there are clear changes (e.g., `mfcc_02` in 'Bloed, Zweet en Tranen'). Listen to these tracks and follow along with the cepstrograms. Can you think of words to describe what is changing in the music when you see sharp changes in the cepstrogram? Could you give any of the MFCC components a name?
 

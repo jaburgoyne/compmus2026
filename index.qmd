@@ -25,6 +25,7 @@ You can access the lecture notes at the following links.
   - [Week 7 · Computational Musicology and (Audio) Visualisation](./notes/compmus2026-w07.html)
   - [Week 8 · Chroma Features](./notes/compmus2026-w08.html)
   - [Week 9 · Timbre Features · Self-Similarity Matrices](./notes/compmus2026-w09.html)
+  - [Week 10 · Key and Chord Estimation](./notes/compmus2026-w10.html)
 :::
 
 ## Column {width=60%}
