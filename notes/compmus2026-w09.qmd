@@ -109,7 +109,7 @@ Last week, we used several custom functions from to work with the Spotify API:
       - `cosine`
       - `angular`
   
-### Common Norm, Distance, and Summary Combinations
+### Common Norm and Distance Combinations
 
 | Domain                      | Normalisation | Distance  |
 | ----------------------------|---------------|-----------|
