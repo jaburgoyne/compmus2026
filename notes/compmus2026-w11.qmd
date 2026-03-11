@@ -1,0 +1,112 @@
+---
+title: "Week 11 · Novelty Functions and Tempograms"
+author: "John Ashley Burgoyne"
+date: "10 March 2026"
+format: html
+---
+
+You can download the raw source code for these lecture notes [here](compmus2026-w11.qmd).
+
+## Course Meeting Plan
+
+### Wednesday · 10 March · Lecture
+
+  - Lecture: Onset detection (15 mins)
+  - Breakout: Energy or spectrum? (15 mins)
+  - Discussion: Breakout findings (5 mins)
+  - Demo: Beat tracking (15 mins)
+  - Lecture: Tempo estimation (15 mins)
+  - Discussion: Preferred tempo (10 mins)
+  - Portfolio critiques (15 min)
+  
+### Wednesday · 10 March · Novelty Functions
+
+  - Demo: Novelty functions with Sonic Visualiser features (15 mins)
+  - Breakout: Novelty functions (20 mins)
+  - Discussion: Breakout findings (10 mins)
+  - Demo: Tempograms with Sonic Visualiser features (15 mins)
+  - Breakout: Tempograms (20 mins)
+  - Discussion: Breakout findings (10 mins)
+
+## Set-up
+
+```{r}
+library(tidyverse)
+library(compmus)
+```
+
+## Breakout 1: Energy or Spectrum?
+
+Look at one (or more) of the self-similarity matrices from somebody's portfolio in your group. Discuss what you think a spectrum-based novelty function would look like for this track. Listen to (some of) the track and also discussion what you think an energy-based novelty function would look like. Which one do you think would be most useful for beat tracking, and why? 
+
+## Breakout 2: Novelty Functions
+
+Sonic Visualiser gives easy access to tempo novelty functions. For this course, we will use the option under Transform / Analysis by Category / Visualisation / Tempogram: Novelty Function. You can find the novelty function for [Miriam Makeba's 'Pata Pata'](https://open.spotify.com/track/1BLXxFPDL2BT37nHKD7KrA?si=287b71f26dbf44a7) in Sonic Visualiser's CSV format [here](../dat/pata-pata-novelty.csv).
+
+```{r}
+pata_pata <- read_csv("../dat/pata-pata-novelty.csv")
+```
+
+We can compute an energy-based novelty function based on Spotify's loudness estimates. The tempo of this piece is about 126 BPM: how well does this technique work?
+
+```{r}
+pata_pata |>
+  ggplot(aes(x = TIME, y = VALUE)) +
+  geom_line() +
+  xlim(0, 30) +                         # Adjust the limits to the desired time range
+  theme_minimal() +
+  labs(x = "Time (s)", y = "Novelty")
+```
+
+### Instructions
+
+Listen to the first 30 seconds of 'Pata Pata' and discuss the representation above. Does it seem useful?
+
+Choose a track from your corpus and compute your own novelty function. (Change the `xlim()` line if you want to look at a different portion of your track.) How does it differ from what you see for 'Pata Pata'? Be prepared to show your best 'novelty-gram' to the class.
+
+## Breakout 3: Tempograms 
+
+We can use Sonic Visualiser to generate autocorrelation and Fourier, ready to plot with `geom_raster` (a faster version of `geom_tile` for when every segment has the same length). The relevant Sonic Visualiser layers are:
+  - Transform / Analysis by Category / Visualisation / Tempogram: Autocorrelation
+  - Transform / Analysis by Category / Visualisation / Tempogram: Fourier
+Be sure to click both of the options for added columns when exporting.
+
+Here is an example of ['Samba de outro lugar'](https://open.spotify.com/track/7GftkVWOWVSVJjfVAe9seH?si=4f7b0e34d46d4e1c), a track from the Brazilian indie band Graveola that features several tempo and metre alternations. You can download the CSV files here:
+  - [Autocorrelation tempogram](../dat/graveola-act.csv)
+  - [Fourier tempogram](../dat/graveola-dft.csv)
+
+```{r}
+graveola_act <- read_csv("../dat/graveola-act.csv")
+graveola_dft <- read_csv("../dat/graveola-dft.csv")
+```
+
+```{r}
+graveola_act |> 
+  pivot_longer(-TIME, names_to = "tempo") |> 
+  mutate(tempo = as.numeric(tempo)) |> 
+  ggplot(aes(x = TIME, y = tempo, fill = value)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic()
+```
+```{r}
+graveola_dft |> 
+  pivot_longer(-TIME, names_to = "tempo") |> 
+  mutate(tempo = as.numeric(tempo)) |> 
+  ggplot(aes(x = TIME, y = tempo, fill = value)) +
+  geom_raster() +
+  scale_fill_viridis_c(guide = "none") +
+  labs(x = "Time (s)", y = "Tempo (BPM)") +
+  theme_classic()
+```
+
+The textbook notes that Fourier-based tempograms tend to pick up strongly on tempo harmonics. Which tempogram seems more effective here?
+
+### Instructions
+
+Return to the track you discussed in Breakout 1 (or choose a new track that somebody in your group loves). Compute autocorrelation and Fourier tempograms for this track. 
+  - How well do they work? 
+  - Do you see more tempo harmonics or more tempo *sub*-harmonics? Is that what you expected? Why?
+  - Try other tracks as time permits, and be prepared to share your most interesting tempogram with the class.
+

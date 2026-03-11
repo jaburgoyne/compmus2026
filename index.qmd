@@ -26,6 +26,7 @@ You can access the lecture notes at the following links.
   - [Week 8 · Chroma Features](./notes/compmus2026-w08.html)
   - [Week 9 · Timbre Features · Self-Similarity Matrices](./notes/compmus2026-w09.html)
   - [Week 10 · Key and Chord Estimation](./notes/compmus2026-w10.html)
+  - [Week 11 · Novelty Functions and Tempograms](./notes/compmus2026-w11.html)
 :::
 
 ## Column {width=60%}
