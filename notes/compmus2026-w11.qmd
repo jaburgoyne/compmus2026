@@ -53,7 +53,7 @@ We can compute an energy-based novelty function based on Spotify's loudness esti
 pata_pata |>
   ggplot(aes(x = TIME, y = VALUE)) +
   geom_line() +
-  xlim(0, 30) +                         # Adjust the limits to the desired time range
+  xlim(0, 30) +                         # Adjust the limits as desired
   theme_minimal() +
   labs(x = "Time (s)", y = "Novelty")
 ```
@@ -81,16 +81,19 @@ graveola_dft <- read_csv("../dat/graveola-dft.csv")
 ```
 
 ```{r}
+#| warning: false
 graveola_act |> 
   pivot_longer(-TIME, names_to = "tempo") |> 
   mutate(tempo = as.numeric(tempo)) |> 
   ggplot(aes(x = TIME, y = tempo, fill = value)) +
   geom_raster() +
+  scale_y_continuous(transform = c("reciprocal", "reverse"), breaks = seq(50, 350, 100)) +    
   scale_fill_viridis_c(guide = "none") +
   labs(x = "Time (s)", y = "Tempo (BPM)") +
   theme_classic()
 ```
 ```{r}
+#| warning: false
 graveola_dft |> 
   pivot_longer(-TIME, names_to = "tempo") |> 
   mutate(tempo = as.numeric(tempo)) |> 
