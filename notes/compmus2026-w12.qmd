@@ -11,12 +11,12 @@ You can download the raw source code for these lecture notes [here](compmus2026-
 
 ### Wednesday · 18 March · Lecture
 
-  - Demo: Generative AI for music (10 minutes)
   - Lecture: Famous MIR applications (20 minutes)
   - Breakout: Discover Weekly (10 minutes)
   - Discussion: Breakout results (10 minutes)
   - Lecture: Classification and Clustering (20 minutes)
   - Discussion: Classification and Clustering (5 minutes)
+  - Lecture: Generative AI for music (10 minutes)
   - Exam info: (5 minutes)
   - Wrap-up: (10 minutes)
 
