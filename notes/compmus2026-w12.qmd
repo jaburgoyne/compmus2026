@@ -5,7 +5,7 @@ date: "18 March 2026"
 output: html
 ---
 
-You can download the raw source code for these lecture notes [here](compmus2026-w12.Rmd).
+You can download the raw source code for these lecture notes [here](compmus2026-w12.qmd).
 
 ## Course Meeting Plan
 
