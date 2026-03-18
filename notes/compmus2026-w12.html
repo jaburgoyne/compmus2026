@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="John Ashley Burgoyne">
+<meta name="dcterms.date" content="2026-03-18">
+
+<title>Week 12 · Classification and Clustering</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="compmus2026-w12_files/libs/clipboard/clipboard.min.js"></script>
+<script src="compmus2026-w12_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="compmus2026-w12_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="compmus2026-w12_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="compmus2026-w12_files/libs/quarto-html/popper.min.js"></script>
+<script src="compmus2026-w12_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="compmus2026-w12_files/libs/quarto-html/anchor.min.js"></script>
+<link href="compmus2026-w12_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="compmus2026-w12_files/libs/quarto-html/quarto-syntax-highlighting-57fcc954d6c88566827f23c674430e95.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="compmus2026-w12_files/libs/quarto-html/quarto-syntax-highlighting-dark-1dc13342a78a52a08fed5c1b4a9e7ff3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="compmus2026-w12_files/libs/quarto-html/quarto-syntax-highlighting-57fcc954d6c88566827f23c674430e95.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="compmus2026-w12_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="compmus2026-w12_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="compmus2026-w12_files/libs/bootstrap/bootstrap-ad483830ee722eaa426852f291a1d3bd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="compmus2026-w12_files/libs/bootstrap/bootstrap-dark-ad483830ee722eaa426852f291a1d3bd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="compmus2026-w12_files/libs/bootstrap/bootstrap-ad483830ee722eaa426852f291a1d3bd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="compmus2026-w12_files/libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+<script src="compmus2026-w12_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="compmus2026-w12_files/libs/plotly-binding-4.12.0/plotly.js"></script>
+<script src="compmus2026-w12_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="compmus2026-w12_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="compmus2026-w12_files/libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="compmus2026-w12_files/libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<link href="compmus2026-w12_files/libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="compmus2026-w12_files/libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 12 · Classification and Clustering</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>John Ashley Burgoyne </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 18, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>You can download the raw source code for these lecture notes <a href="compmus2026-w12.Rmd">here</a>.</p>
+<section id="course-meeting-plan" class="level2">
+<h2 class="anchored" data-anchor-id="course-meeting-plan">Course Meeting Plan</h2>
+<section id="wednesday-18-march-lecture" class="level3">
+<h3 class="anchored" data-anchor-id="wednesday-18-march-lecture">Wednesday · 18 March · Lecture</h3>
+<ul>
+<li>Demo: Generative AI for music (10 minutes)</li>
+<li>Lecture: Famous MIR applications (20 minutes)</li>
+<li>Breakout: Discover Weekly (10 minutes)</li>
+<li>Discussion: Breakout results (10 minutes)</li>
+<li>Lecture: Classification and Clustering (20 minutes)</li>
+<li>Discussion: Classification and Clustering (5 minutes)</li>
+<li>Exam info: (5 minutes)</li>
+<li>Wrap-up: (10 minutes)</li>
+</ul>
+</section>
+<section id="wednesday-18-march-lab" class="level3">
+<h3 class="anchored" data-anchor-id="wednesday-18-march-lab">Wednesday · 18 March · Lab</h3>
+<ul>
+<li>Demo: Hierarchical clustering (15 minutes)</li>
+<li>Breakout: Clustering (30 minutes)</li>
+<li>Discussion: Breakout results (15 minutes)</li>
+<li>Demo: Classification with tidymodels (15 minutes)</li>
+<li>Course evaluations (15 minutes)</li>
+</ul>
+</section>
+</section>
+<section id="breakout-1-discover-weekly" class="level2">
+<h2 class="anchored" data-anchor-id="breakout-1-discover-weekly">Breakout 1: Discover Weekly</h2>
+<p>Choose one member of your group and listen together to some of the songs on their Discover Weekly playlist. Try to make a prediction about the centre of their taste cluster with respect to Spotify API features (e.g., high/low danceability, high/low energy, high/low liveness, etc.).</p>
+<p>Suppose you want to use the results of this breakout session to make the claim (or refute the claim) <em>Spotify’s Discover Weekly algorithm can identify users’ musical taste</em>. Would this ‘experiment’ have statistical validity? External validity? Internal validity? Construct validity? Why or why not?</p>
+</section>
+<section id="lab-set-up" class="level2">
+<h2 class="anchored" data-anchor-id="lab-set-up">Lab set-up</h2>
+<p>We will be using the developing <code>tidymodels</code> framework this week for integrating with the different machine-learning libraries in a consistent manner. You can install this package from the usual RStudio Tools menu. All of the other tools that are strictly necessary for clustering are available in base R. For full flexibility, however, the <code>ggdendro</code> and <code>heatmaply</code> packages are recommended. If you want to explore further possibilities, look at the <code>cluster</code> and <code>protoclust</code> packages.</p>
+<p>As you work through the breakout sessions, you will occasionally get error messages asking you to install other packages, too. Install whatever R asks for from the Tools menu, and then try running the chunk again. Two helper functions are also included here: <code>get_conf_mat()</code> and <code>get_pr()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.0     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.4.1 ──
+✔ broom        1.0.12     ✔ rsample      1.3.2 
+✔ dials        1.4.2      ✔ tailor       0.1.0 
+✔ infer        1.1.0      ✔ tune         2.0.1 
+✔ modeldata    1.5.1      ✔ workflows    1.3.0 
+✔ parsnip      1.4.1      ✔ workflowsets 1.1.1 
+✔ recipes      1.3.1      ✔ yardstick    1.3.2 
+── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ scales::discard() masks purrr::discard()
+✖ dplyr::filter()   masks stats::filter()
+✖ recipes::fixed()  masks stringr::fixed()
+✖ dplyr::lag()      masks stats::lag()
+✖ yardstick::spec() masks readr::spec()
+✖ recipes::step()   masks stats::step()</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdendro)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(heatmaply)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: plotly
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+Loading required package: viridis
+Loading required package: viridisLite
+
+Attaching package: 'viridis'
+
+The following object is masked from 'package:scales':
+
+    viridis_pal
+
+
+======================
+Welcome to heatmaply version 1.6.0
+
+Type citation('heatmaply') for how to cite the package.
+Type ?heatmaply for the main documentation.
+
+The github page is: https://github.com/talgalili/heatmaply/
+Please submit your suggestions and bug-reports at: https://github.com/talgalili/heatmaply/issues
+You may ask questions at stackoverflow, use the r and heatmaply tags: 
+     https://stackoverflow.com/questions/tagged/heatmaply
+======================</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(compmus)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>get_conf_mat <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  outcome <span class="ot">&lt;-</span> <span class="fu">.get_tune_outcome_names</span>(fit)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="sc">|&gt;</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">collect_predictions</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">conf_mat</span>(<span class="at">truth =</span> outcome, <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>get_pr <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">conf_mat_resampled</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Prediction) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">precision =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Truth) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">recall =</span> Freq <span class="sc">/</span> <span class="fu">sum</span>(Freq)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(Prediction <span class="sc">==</span> Truth) <span class="sc">|&gt;</span> </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">class =</span> Prediction, precision, recall)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="breakout-2-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="breakout-2-clustering">Breakout 2: Clustering</h2>
+<p>The <em>NRC</em>, one of the Dutch national newspapers, maintains a <a href="https://open.spotify.com/playlist/5tuYtDM305tknEs94i8F5P">Spotify playlist</a> that their music editors feel represents the best new music of the moment. Perhaps clustering can help us organise and describe what kinds of musical selections make it onto the list. You can download an <a href="https://exportify.net">Exportify</a> CSV of this list <a href="../data/nrc.csv">here</a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nrc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../dat/nrc.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 35 Columns: 24
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (7): Track URI, Track Name, Album Name, Artist Name(s), Added By, Genr...
+dbl  (14): Duration (ms), Popularity, Danceability, Energy, Key, Loudness, M...
+lgl   (1): Explicit
+dttm  (1): Added At
+date  (1): Release Date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<section id="pre-processing" class="level3">
+<h3 class="anchored" data-anchor-id="pre-processing">Pre-processing</h3>
+<p>In the <code>tidymodels</code> approach, we can preprocess data with a <code>recipe</code> specifying what we are predicting and what variables we think might be useful for that prediction. For most projects, the track name will be the best choice (although feel free to experiment with others). The code below uses <code>str_trunc</code> to clip the track name to a maximum of 20 characters, again in order to improve readability. The <code>column_to_rownames</code> command is ugly but necessary for the plot labels to appear correctly.</p>
+<p>Then we use <code>step</code> functions to do any data cleaning (usually centering and scaling, but <code>step_range</code> is a viable alternative that squeezes everything to be between 0 and 1). This week we discussed that although standardising variables with <code>step_center</code> to make the mean 0 and <code>step_scale</code> to make the standard deviation 1 is the most common approach, sometimes <code>step_range</code> is a better alternative, which squashes or stretches every features so that it ranges from 0 to 1.It’s wise to try both.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nrc_juice <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Track Name</span><span class="st">`</span> <span class="sc">~</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      Danceability <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      Energy <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      Loudness <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      Speechiness <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      Acousticness <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      Instrumentalness <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      Liveness <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      Valence <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      Tempo <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Duration (ms)</span><span class="st">`</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> nrc</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_center</span>(<span class="fu">all_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_scale</span>(<span class="fu">all_predictors</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># step_range(all_predictors()) |&gt; </span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>(nrc <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Track Name</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">str_trunc</span>(<span class="st">`</span><span class="at">Track Name</span><span class="st">`</span>, <span class="dv">36</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">juice</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_to_rownames</span>(<span class="st">"Track Name"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="computing-distances" class="level3">
+<h3 class="anchored" data-anchor-id="computing-distances">Computing distances</h3>
+<p>When using <code>step_center</code> and <code>step_scale</code>, then the Euclidean distance is usual. When using <code>step_range</code>, then the Manhattan distance is also a good choice: this combination is known as <em>Gower’s distance</em> and has a long history in clustering.</p>
+<p><strong>After you have this section of the notebook working with Euclidean distance, try modifying it to use Gower’s distance.</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nrc_dist <span class="ot">&lt;-</span> <span class="fu">dist</span>(nrc_juice, <span class="at">method =</span> <span class="st">"euclidean"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="hierarchical-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="hierarchical-clustering">Hierarchical clustering</h3>
+<p>There are three primary types of <em>linkage</em>: single, average, and complete. Usually average or complete give the best results. We can use the <code>ggendrogram</code> function to make a more standardised plot of the results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nrc_dist <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hclust</span>(<span class="at">method =</span> <span class="st">"single"</span>) <span class="sc">|&gt;</span> <span class="co"># Try single, average, and complete.</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dendro_data</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggdendrogram</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="compmus2026-w12_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Try all three of these linkages. Which one looks the best? Which one <em>sounds</em> the best (when you listen to the tracks on Spotify)? Can you guess which features are separating the clusters?</strong></p>
+</section>
+<section id="heatmaps" class="level3">
+<h3 class="anchored" data-anchor-id="heatmaps">Heatmaps</h3>
+<p>Especially for portfolios, it can be helpful to visualise hierarchical clusterings along with heatmaps of feature values. We can do that with <code>heatmaply</code>. Although the interactive heatmaps are flashy, think carefully when deciding whether this representation is more helpful for your storyboard than the simpler dendrograms above.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmaply</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  nrc_juice,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">hclustfun =</span> hclust,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">hclust_method =</span> <span class="st">"average"</span>,  <span class="co"># Change for single, average, or complete linkage.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dist_method =</span> <span class="st">"euclidean"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in doTryCatch(return(expr), name, parentenv, handler): unable to load shared object '/Library/Frameworks/R.framework/Resources/modules//R_X11.so':
+  dlopen(/Library/Frameworks/R.framework/Resources/modules//R_X11.so, 0x0006): Library not loaded: /opt/X11/lib/libSM.6.dylib
+  Referenced from: &lt;C09D78D1-7747-3352-8D6A-DBD3D49D82B0&gt; /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/modules/R_X11.so
+  Reason: tried: '/opt/X11/lib/libSM.6.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/opt/X11/lib/libSM.6.dylib' (no such file), '/opt/X11/lib/libSM.6.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libSM.6.dylib' (no such file), '/Library/Java/JavaVirtualMachines/jdk-11.0.18+10/Contents/Home/lib/server/libSM.6.dylib' (no such file)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+ℹ The deprecated feature was likely used in the dendextend package.
+  Please report the issue at &lt;https://github.com/talgalili/dendextend/issues&gt;.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-dc1d77e6676e8e60d450" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-dc1d77e6676e8e60d450">{"x":{"data":[{"x":[5.3125,2.5,null,2.5,2.5,null,2.5,1.5,null,1.5,1.5,null,1.5,1,null,1,1,null,1.5,2,null,2,2,null,2.5,3.5,null,3.5,3.5,null,3.5,3,null,3,3,null,3.5,4,null,4,4,null,5.3125,8.125,null,8.125,8.125,null,8.125,6.25,null,6.25,6.25,null,6.25,5,null,5,5,null,6.25,7.5,null,7.5,7.5,null,7.5,6.5,null,6.5,6.5,null,6.5,6,null,6,6,null,6.5,7,null,7,7,null,7.5,8.5,null,8.5,8.5,null,8.5,8,null,8,8,null,8.5,9,null,9,9,null,8.125,10,null,10,10],"y":[11.17754240463538,11.17754240463538,null,11.17754240463538,8.7205872735330914,null,8.7205872735330914,8.7205872735330914,null,8.7205872735330914,5.992824352330727,null,5.992824352330727,5.992824352330727,null,5.992824352330727,0,null,5.992824352330727,5.992824352330727,null,5.992824352330727,0,null,8.7205872735330914,8.7205872735330914,null,8.7205872735330914,6.7346269900484623,null,6.7346269900484623,6.7346269900484623,null,6.7346269900484623,0,null,6.7346269900484623,6.7346269900484623,null,6.7346269900484623,0,null,11.17754240463538,11.17754240463538,null,11.17754240463538,8.7398555491049752,null,8.7398555491049752,8.7398555491049752,null,8.7398555491049752,6.9073926677357225,null,6.9073926677357225,6.9073926677357225,null,6.9073926677357225,0,null,6.9073926677357225,6.9073926677357225,null,6.9073926677357225,5.74708179721787,null,5.74708179721787,5.74708179721787,null,5.74708179721787,4.5454842884953557,null,4.5454842884953557,4.5454842884953557,null,4.5454842884953557,0,null,4.5454842884953557,4.5454842884953557,null,4.5454842884953557,0,null,5.74708179721787,5.74708179721787,null,5.74708179721787,3.9384166315167266,null,3.9384166315167266,3.9384166315167266,null,3.9384166315167266,0,null,3.9384166315167266,3.9384166315167266,null,3.9384166315167266,0,null,8.7398555491049752,8.7398555491049752,null,8.7398555491049752,0],"text":["y: 11.177542","y: 11.177542",null,"y: 11.177542","y: 11.177542",null,"y:  8.720587","y:  8.720587",null,"y:  8.720587","y:  8.720587",null,"y:  5.992824","y:  5.992824",null,"y:  5.992824","y:  5.992824",null,"y:  5.992824","y:  5.992824",null,"y:  5.992824","y:  5.992824",null,"y:  8.720587","y:  8.720587",null,"y:  8.720587","y:  8.720587",null,"y:  6.734627","y:  6.734627",null,"y:  6.734627","y:  6.734627",null,"y:  6.734627","y:  6.734627",null,"y:  6.734627","y:  6.734627",null,"y: 11.177542","y: 11.177542",null,"y: 11.177542","y: 11.177542",null,"y:  8.739856","y:  8.739856",null,"y:  8.739856","y:  8.739856",null,"y:  6.907393","y:  6.907393",null,"y:  6.907393","y:  6.907393",null,"y:  6.907393","y:  6.907393",null,"y:  6.907393","y:  6.907393",null,"y:  5.747082","y:  5.747082",null,"y:  5.747082","y:  5.747082",null,"y:  4.545484","y:  4.545484",null,"y:  4.545484","y:  4.545484",null,"y:  4.545484","y:  4.545484",null,"y:  4.545484","y:  4.545484",null,"y:  5.747082","y:  5.747082",null,"y:  5.747082","y:  5.747082",null,"y:  3.938417","y:  3.938417",null,"y:  3.938417","y:  3.938417",null,"y:  3.938417","y:  3.938417",null,"y:  3.938417","y:  3.938417",null,"y:  8.739856","y:  8.739856",null,"y:  8.739856","y:  8.739856"],"type":"scatter","mode":"lines","line":{"width":2.2677165354330708,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[5.3125,2.5,1.5,1,2,3.5,3,4,8.125,6.25,5,7.5,6.5,6,7,8.5,8,9,10],"y":[11.17754240463538,8.7205872735330914,5.992824352330727,0,0,6.7346269900484623,0,0,8.7398555491049752,6.9073926677357225,0,5.74708179721787,4.5454842884953557,0,0,3.9384166315167266,0,0,0],"text":["y: 11.177542","y:  8.720587","y:  5.992824","y:  0.000000","y:  0.000000","y:  6.734627","y:  0.000000","y:  0.000000","y:  8.739856","y:  6.907393","y:  0.000000","y:  5.747082","y:  4.545484","y:  0.000000","y:  0.000000","y:  3.938417","y:  0.000000","y:  0.000000","y:  0.000000"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"transparent","opacity":1,"size":null,"symbol":null,"line":{"width":1.8897637795275593,"color":"transparent"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"type":"scatter","mode":"markers","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10],"y":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],"z":[[0.56515894757330964,0.49457950679248658,0.33143196888968129,0.37561020054600475,0.32037777859335187,0.49249728727286357,0.65835857905943362,0.50547394973321491,0.58731940264452887,0.35591693662111423],[0.51829569700131339,0.46751714271411215,0.31619183408745916,0.35923764323016699,0.58363173012799563,0.49594294311023096,0.60724428796157848,0.50876066021320832,0.56539087506357322,0.34986864875948576],[0.39205110824667611,0.36279797639186895,0.33078160751832048,0.44519356913831531,0.47011885515635188,0.59586696239388448,0.61143398395320592,0.51334309309396842,0.54803079072865002,0.46393224219701995],[0.45283024009539496,0.34367637040288446,0.32056164311122171,0.44891460489191476,0.51885041642183161,0.6282561272651378,0.61478574074650794,0.54878584120274332,0.56310665344055699,0.59557144859716848],[0.57517552021465235,0.40012270000803291,0.31751113858364827,0.52891687359430395,0.5186967528812052,0.5620995351876843,0.55235927047125866,0.52827550368816922,0.61655743941913643,0.58347487287391164],[0.55621557914353936,0.41536539268595374,0.31512338326308065,0.42844890824711751,0.59153327113809839,0.51248209112959431,0.57163187203274501,0.52701138427278715,0.61198899617310409,0.71511407927406023],[0.35982010991732172,0.3539923642975677,0.32824210121110198,0.49319493035974871,0.38524805540198392,0.5186842716368556,0.38393349160783435,0.5636708473188673,0.6010247323826261,0.72721065499731719],[0.4624890779995468,0.40649848418377399,0.48417398239213899,0.48352023740039013,0.43342966294311663,0.5131712222970678,0.34957798447648908,0.45920717913023107,0.44980926093895263,0.5663973542057843],[0.35988860896479907,0.42847420416460291,0.36122471361582975,0.35551660747656749,0.37882653691475615,0.46010812240161053,0.53224872971144677,0.52551024246702083,0.49640738204848345,0.54718514570414101],[0.35981920842578402,0.37710972987513441,0.36432167252707182,0.39309906858792237,0.42332426325824124,0.40911241600857351,0.50459673616670553,0.52680596486778752,0.45985983608022396,0.63613055543397112],[0.36586492548430877,0.37219452416837417,0.34976596564423418,0.3774707184228045,0.27050587210532923,0.27817749418861376,0.32569671732421246,0.54116952172506627,0.47128094419530508,0.59770613843068443],[0.360559719331769,0.47938853295871342,0.53093806195189386,0.39049434356040275,0.4493257518431748,0.38430369397952852,0.3118707205518419,0.46661807920290843,0.43062179930561639,0.35983053464922676],[0.35987537277952303,0.42370553518292725,0.37175437391405269,0.37635440769672462,0.5626687881646526,0.29402751104050368,0.29678781498198298,0.51808354090165121,0.39681531928497638,0.45966286252998817],[0.3598203388675536,0.39100677484884666,0.32012806886364781,0.37672651127208456,0.53067846527267604,0.35742757844806305,0.38854215719862456,0.50506311092321576,0.50600111286515159,0.3470223956481312],[0.36482749474645543,0.3680761717640349,0.33174166478080547,0.39756431149224175,0.56636884447183988,0.45735159773171657,0.45306347546968756,0.52059597823972303,0.55625398857150832,0.36737310539431633],[0.35986464073740732,0.40954893823210431,0.32805628367642742,0.38602910065608337,0.53025386864726121,0.54211473133095367,0.48071546901442891,0.50512631689398491,0.50691480151435808,0.35620156193224972],[0.43208162533832789,0.40882870543953154,0.36556045609156856,0.41691369741095913,0.51867249021689577,0.58690825721672935,0.38644730920281078,0.49556641381515798,0.51422431070801,0.49951040608895203],[0.38128329265723271,0.50773812160253706,0.3446250138515724,0.44854250131655482,0.51061728566616671,0.53660168199116587,0.33240023091081644,0.45604688059177584,0.52975701774452022,0.3756983957450285],[0.36037369726842983,0.49438125122325455,0.34369592617819977,0.49319493035974871,0.40947432571494458,0.54900604300568845,0.48364825620856811,0.5287495484689374,0.54848763505325315,0.39064122457963996],[0.35982357278957777,0.4548201664758969,0.45165591382409753,0.48538075527718977,0.57472328854905186,0.48698423793307583,0.53853327369888793,0.46317335379599228,0.45483454850958832,0.33407194399146795],[0.35988860896479907,0.41888418960073104,0.49811029749272823,0.37672651127208456,0.66307578063182238,0.47389074575107987,0.46856535063870919,0.50089151685245492,0.46397143500165311,0.36538072821636819],[0.35988682029111313,0.39806831258772885,0.5513779907660914,0.36928443976488562,0.48575209852639123,0.45321681072687575,0.467308441841221,0.46184602840984113,0.47265147716911482,0.39064122457963996],[0.36033076909996686,0.4203782895427704,0.53713197977437799,0.36333078255912643,0.48633440246981746,0.59724522472883146,0.59006653439590584,0.47903805245903736,0.4566619258080013,0.3756983957450285],[0.35981920842578402,0.33956855331864927,0.59566450319685271,0.47012450868743194,0.30199881037896265,0.50007773011507184,0.63489628150631983,0.51084645724858879,0.40732273875085101,0.36388644533290704],[0.3788864699180543,0.3973021074892471,0.5355835003187569,0.36481919686056624,0.3445191295812296,0.39739718616152447,0.47191710743201126,0.39284090982267206,0.354785641421478,0.38992966130180123],[0.35984864999465488,0.43797514738577625,0.60433598814833045,0.51328852342918607,0.31362467036056196,0.44356897438224713,0.47317401622949951,0.46804021354521325,0.35021719817544555,0.36737310539431633],[0.36002633683861757,0.46987130787919729,0.60278750869270936,0.66510678217604535,0.38926757012257862,0.53039950148390458,0.43002014751573653,0.46143518959984198,0.30727383166274064,0.38210246524557623],[0.52401945279636641,0.39525059333806228,0.5903996730477411,1,0.72102311055749846,0.56141040402021092,0.54020915209553899,0.34403009889623176,0.32326338302385416,0.37285214263367389],[0.64851114133876864,0.31047861899841761,0.56159795517319011,0.54380101660870184,0.39968029688870682,0.3167688395671282,0.41619415074336585,0.30190331937862408,0.51285377773420027,0.52512668409114305],[0.64099871185776158,0.68475640101751567,0.43462263981226623,0.37672651127208456,0.37299945370310933,0.45941899123413704,0.39524567078522849,0.42839426838029293,0.43793130849926826,0.39633373080234907],[0.65745450976853892,0.5268099242601203,0.49841999338385246,0.39719220791688181,0.37142238052299675,0.1686056385603317,0.27064411199422761,0.376170335032321,0.28260423813416558,0.38210246524557623],[0.6860732887438038,0.5246588034461328,0.61796260735779529,0.40723900445160044,0.26055413596108018,0.34295582393112017,0.27638399550275722,0.26878339069561369,0.2212957297724103,0.36545188454415206],[0.7010981477058178,0.58839365905058882,0.62260804572465844,0.49989279471622788,0.27901802350055244,0.3195253642370221,0.27014134847523225,0,0.20492699762187608,0.35904781504360422],[0.37055125054150839,0.43931600630811923,0.61672382379329849,0.46975240511207195,0.25182766436445708,0.186523048914642,0.30516720696523786,0.18008961221386882,0.21298116306463122,0.66032370688048492],[0.61059125919654267,0.97256889542932456,0.60929112240631755,0.40649479730088056,0.49567957200633089,0.27197531368135253,0.29029378619496038,0.30275659998400695,0.26067571055320987,0.35933244035473971]],"text":[["row: Öldürme Beni<br>column: Instrumentalness<br>value:  0.995945","row: Öldürme Beni<br>column: Duration (ms)<br>value:  0.395362","row: Öldürme Beni<br>column: Acousticness<br>value: -0.992912","row: Öldürme Beni<br>column: Speechiness<br>value: -0.616985","row: Öldürme Beni<br>column: Tempo<br>value: -1.086975","row: Öldürme Beni<br>column: Danceability<br>value:  0.377644","row: Öldürme Beni<br>column: Valence<br>value:  1.789010","row: Öldürme Beni<br>column: Loudness<br>value:  0.488066","row: Öldürme Beni<br>column: Energy<br>value:  1.184515","row: Öldürme Beni<br>column: Liveness<br>value: -0.784562"],["row: Neredesin Sen<br>column: Instrumentalness<br>value:  0.597171","row: Neredesin Sen<br>column: Duration (ms)<br>value:  0.165080","row: Neredesin Sen<br>column: Acousticness<br>value: -1.122595","row: Neredesin Sen<br>column: Speechiness<br>value: -0.756305","row: Neredesin Sen<br>column: Tempo<br>value:  1.153136","row: Neredesin Sen<br>column: Danceability<br>value:  0.406964","row: Neredesin Sen<br>column: Valence<br>value:  1.354062","row: Neredesin Sen<br>column: Loudness<br>value:  0.516034","row: Neredesin Sen<br>column: Energy<br>value:  0.997918","row: Neredesin Sen<br>column: Liveness<br>value: -0.836028"],["row: Ready, Steady, Go!<br>column: Instrumentalness<br>value: -0.477084","row: Ready, Steady, Go!<br>column: Duration (ms)<br>value: -0.726009","row: Ready, Steady, Go!<br>column: Acousticness<br>value: -0.998446","row: Ready, Steady, Go!<br>column: Speechiness<br>value: -0.024878","row: Ready, Steady, Go!<br>column: Tempo<br>value:  0.187219","row: Ready, Steady, Go!<br>column: Danceability<br>value:  1.257249","row: Ready, Steady, Go!<br>column: Valence<br>value:  1.389714","row: Ready, Steady, Go!<br>column: Loudness<br>value:  0.555027","row: Ready, Steady, Go!<br>column: Energy<br>value:  0.850196","row: Ready, Steady, Go!<br>column: Liveness<br>value:  0.134575"],["row: DIRTY TECH<br>column: Instrumentalness<br>value:  0.040104","row: DIRTY TECH<br>column: Duration (ms)<br>value: -0.888720","row: DIRTY TECH<br>column: Acousticness<br>value: -1.085411","row: DIRTY TECH<br>column: Speechiness<br>value:  0.006785","row: DIRTY TECH<br>column: Tempo<br>value:  0.601891","row: DIRTY TECH<br>column: Danceability<br>value:  1.532859","row: DIRTY TECH<br>column: Valence<br>value:  1.418235","row: DIRTY TECH<br>column: Loudness<br>value:  0.856621","row: DIRTY TECH<br>column: Energy<br>value:  0.978481","row: DIRTY TECH<br>column: Liveness<br>value:  1.254735"],["row: TIJDSGEEST<br>column: Instrumentalness<br>value:  1.081179","row: TIJDSGEEST<br>column: Duration (ms)<br>value: -0.408401","row: TIJDSGEEST<br>column: Acousticness<br>value: -1.111369","row: TIJDSGEEST<br>column: Speechiness<br>value:  0.687550","row: TIJDSGEEST<br>column: Tempo<br>value:  0.600583","row: TIJDSGEEST<br>column: Danceability<br>value:  0.969911","row: TIJDSGEEST<br>column: Valence<br>value:  0.887028","row: TIJDSGEEST<br>column: Loudness<br>value:  0.682092","row: TIJDSGEEST<br>column: Energy<br>value:  1.433311","row: TIJDSGEEST<br>column: Liveness<br>value:  1.151801"],["row: NOT TODAY<br>column: Instrumentalness<br>value:  0.919843","row: NOT TODAY<br>column: Duration (ms)<br>value: -0.278696","row: NOT TODAY<br>column: Acousticness<br>value: -1.131687","row: NOT TODAY<br>column: Speechiness<br>value: -0.167364","row: NOT TODAY<br>column: Tempo<br>value:  1.220372","row: NOT TODAY<br>column: Danceability<br>value:  0.547701","row: NOT TODAY<br>column: Valence<br>value:  1.051025","row: NOT TODAY<br>column: Loudness<br>value:  0.671335","row: NOT TODAY<br>column: Energy<br>value:  1.394437","row: NOT TODAY<br>column: Liveness<br>value:  2.271961"],["row: VIVIENNE<br>column: Instrumentalness<br>value: -0.751348","row: VIVIENNE<br>column: Duration (ms)<br>value: -0.800938","row: VIVIENNE<br>column: Acousticness<br>value: -1.020055","row: VIVIENNE<br>column: Speechiness<br>value:  0.383580","row: VIVIENNE<br>column: Tempo<br>value: -0.534974","row: VIVIENNE<br>column: Danceability<br>value:  0.600477","row: VIVIENNE<br>column: Valence<br>value: -0.546160","row: VIVIENNE<br>column: Loudness<br>value:  0.983282","row: VIVIENNE<br>column: Energy<br>value:  1.301138","row: VIVIENNE<br>column: Liveness<br>value:  2.374894"],["row: Death of Love<br>column: Instrumentalness<br>value:  0.122295","row: Death of Love<br>column: Duration (ms)<br>value: -0.354147","row: Death of Love<br>column: Acousticness<br>value:  0.306818","row: Death of Love<br>column: Speechiness<br>value:  0.301255","row: Death of Love<br>column: Tempo<br>value: -0.124981","row: Death of Love<br>column: Danceability<br>value:  0.553565","row: Death of Love<br>column: Valence<br>value: -0.838502","row: Death of Love<br>column: Loudness<br>value:  0.094368","row: Death of Love<br>column: Energy<br>value:  0.014398","row: Death of Love<br>column: Liveness<br>value:  1.006483"],["row: Pick Up The Pieces<br>column: Instrumentalness<br>value: -0.750765","row: Pick Up The Pieces<br>column: Duration (ms)<br>value: -0.167149","row: Pick Up The Pieces<br>column: Acousticness<br>value: -0.739396","row: Pick Up The Pieces<br>column: Speechiness<br>value: -0.787968","row: Pick Up The Pieces<br>column: Tempo<br>value: -0.589617","row: Pick Up The Pieces<br>column: Danceability<br>value:  0.102034","row: Pick Up The Pieces<br>column: Valence<br>value:  0.715901","row: Pick Up The Pieces<br>column: Loudness<br>value:  0.658562","row: Pick Up The Pieces<br>column: Energy<br>value:  0.410916","row: Pick Up The Pieces<br>column: Liveness<br>value:  0.843000"],["row: Drijfzand<br>column: Instrumentalness<br>value: -0.751356","row: Drijfzand<br>column: Duration (ms)<br>value: -0.604225","row: Drijfzand<br>column: Acousticness<br>value: -0.713043","row: Drijfzand<br>column: Speechiness<br>value: -0.468167","row: Drijfzand<br>column: Tempo<br>value: -0.210971","row: Drijfzand<br>column: Danceability<br>value: -0.331904","row: Drijfzand<br>column: Valence<br>value:  0.480602","row: Drijfzand<br>column: Loudness<br>value:  0.669587","row: Drijfzand<br>column: Energy<br>value:  0.099921","row: Drijfzand<br>column: Liveness<br>value:  1.599865"],["row: Chains of Love<br>column: Instrumentalness<br>value: -0.699911","row: Chains of Love<br>column: Duration (ms)<br>value: -0.646050","row: Chains of Love<br>column: Acousticness<br>value: -0.836902","row: Chains of Love<br>column: Speechiness<br>value: -0.601154","row: Chains of Love<br>column: Tempo<br>value: -1.511351","row: Chains of Love<br>column: Danceability<br>value: -1.446071","row: Chains of Love<br>column: Valence<br>value: -1.041715","row: Chains of Love<br>column: Loudness<br>value:  0.791811","row: Chains of Love<br>column: Energy<br>value:  0.197107","row: Chains of Love<br>column: Liveness<br>value:  1.272899"],["row: Didn’t Come To Argue<br>column: Instrumentalness<br>value: -0.745055","row: Didn’t Come To Argue<br>column: Duration (ms)<br>value:  0.266097","row: Didn’t Come To Argue<br>column: Acousticness<br>value:  0.704749","row: Didn’t Come To Argue<br>column: Speechiness<br>value: -0.490331","row: Didn’t Come To Argue<br>column: Tempo<br>value:  0.010284","row: Didn’t Come To Argue<br>column: Danceability<br>value: -0.543010","row: Didn’t Come To Argue<br>column: Valence<br>value: -1.159365","row: Didn’t Come To Argue<br>column: Loudness<br>value:  0.157429","row: Didn’t Come To Argue<br>column: Energy<br>value: -0.148874","row: Didn’t Come To Argue<br>column: Liveness<br>value: -0.751260"],["row: Eyes of the World featuring Sky F...<br>column: Instrumentalness<br>value: -0.750878","row: Eyes of the World featuring Sky F...<br>column: Duration (ms)<br>value: -0.207727","row: Eyes of the World featuring Sky F...<br>column: Acousticness<br>value: -0.649796","row: Eyes of the World featuring Sky F...<br>column: Speechiness<br>value: -0.610653","row: Eyes of the World featuring Sky F...<br>column: Tempo<br>value:  0.974755","row: Eyes of the World featuring Sky F...<br>column: Danceability<br>value: -1.311198","row: Eyes of the World featuring Sky F...<br>column: Valence<br>value: -1.287710","row: Eyes of the World featuring Sky F...<br>column: Loudness<br>value:  0.595365","row: Eyes of the World featuring Sky F...<br>column: Energy<br>value: -0.436544","row: Eyes of the World featuring Sky F...<br>column: Liveness<br>value:  0.098245"],["row: Where's My Phone?<br>column: Instrumentalness<br>value: -0.751346","row: Where's My Phone?<br>column: Duration (ms)<br>value: -0.485971","row: Where's My Phone?<br>column: Acousticness<br>value: -1.089100","row: Where's My Phone?<br>column: Speechiness<br>value: -0.607486","row: Where's My Phone?<br>column: Tempo<br>value:  0.702540","row: Where's My Phone?<br>column: Danceability<br>value: -0.771707","row: Where's My Phone?<br>column: Valence<br>value: -0.506943","row: Where's My Phone?<br>column: Loudness<br>value:  0.484570","row: Where's My Phone?<br>column: Energy<br>value:  0.492552","row: Where's My Phone?<br>column: Liveness<br>value: -0.860248"],["row: Ik Geloof Dat Wij Iets Delen<br>column: Instrumentalness<br>value: -0.708739","row: Ik Geloof Dat Wij Iets Delen<br>column: Duration (ms)<br>value: -0.681095","row: Ik Geloof Dat Wij Iets Delen<br>column: Acousticness<br>value: -0.990277","row: Ik Geloof Dat Wij Iets Delen<br>column: Speechiness<br>value: -0.430171","row: Ik Geloof Dat Wij Iets Delen<br>column: Tempo<br>value:  1.006240","row: Ik Geloof Dat Wij Iets Delen<br>column: Danceability<br>value:  0.078578","row: Ik Geloof Dat Wij Iets Delen<br>column: Valence<br>value:  0.042089","row: Ik Geloof Dat Wij Iets Delen<br>column: Loudness<br>value:  0.616745","row: Ik Geloof Dat Wij Iets Delen<br>column: Energy<br>value:  0.920170","row: Ik Geloof Dat Wij Iets Delen<br>column: Liveness<br>value: -0.687077"],["row: Golden Sun<br>column: Instrumentalness<br>value: -0.750969","row: Golden Sun<br>column: Duration (ms)<br>value: -0.328190","row: Golden Sun<br>column: Acousticness<br>value: -1.021637","row: Golden Sun<br>column: Speechiness<br>value: -0.528328","row: Golden Sun<br>column: Tempo<br>value:  0.698927","row: Golden Sun<br>column: Danceability<br>value:  0.799854","row: Golden Sun<br>column: Valence<br>value:  0.277389","row: Golden Sun<br>column: Loudness<br>value:  0.485108","row: Golden Sun<br>column: Energy<br>value:  0.500327","row: Golden Sun<br>column: Liveness<br>value: -0.782140"],["row: Orange County (feat. Bizarrap, Ka...<br>column: Instrumentalness<br>value: -0.136452","row: Orange County (feat. Bizarrap, Ka...<br>column: Duration (ms)<br>value: -0.334319","row: Orange County (feat. Bizarrap, Ka...<br>column: Acousticness<br>value: -0.702502","row: Orange County (feat. Bizarrap, Ka...<br>column: Speechiness<br>value: -0.265521","row: Orange County (feat. Bizarrap, Ka...<br>column: Tempo<br>value:  0.600377","row: Orange County (feat. Bizarrap, Ka...<br>column: Danceability<br>value:  1.181017","row: Orange County (feat. Bizarrap, Ka...<br>column: Valence<br>value: -0.524769","row: Orange County (feat. Bizarrap, Ka...<br>column: Loudness<br>value:  0.403760","row: Orange County (feat. Bizarrap, Ka...<br>column: Energy<br>value:  0.562526","row: Orange County (feat. Bizarrap, Ka...<br>column: Liveness<br>value:  0.437321"],["row: Aperture<br>column: Instrumentalness<br>value: -0.568711","row: Aperture<br>column: Duration (ms)<br>value:  0.507333","row: Aperture<br>column: Acousticness<br>value: -0.880648","row: Aperture<br>column: Speechiness<br>value:  0.003619","row: Aperture<br>column: Tempo<br>value:  0.531833","row: Aperture<br>column: Danceability<br>value:  0.752942","row: Aperture<br>column: Valence<br>value: -0.984673","row: Aperture<br>column: Loudness<br>value:  0.067476","row: Aperture<br>column: Energy<br>value:  0.694699","row: Aperture<br>column: Liveness<br>value: -0.616235"],["row: The Moon Cave (feat. Asha Puthli,...<br>column: Instrumentalness<br>value: -0.746638","row: The Moon Cave (feat. Asha Puthli,...<br>column: Duration (ms)<br>value:  0.393675","row: The Moon Cave (feat. Asha Puthli,...<br>column: Acousticness<br>value: -0.888554","row: The Moon Cave (feat. Asha Puthli,...<br>column: Speechiness<br>value:  0.383580","row: The Moon Cave (feat. Asha Puthli,...<br>column: Tempo<br>value: -0.328825","row: The Moon Cave (feat. Asha Puthli,...<br>column: Danceability<br>value:  0.858495","row: The Moon Cave (feat. Asha Puthli,...<br>column: Valence<br>value:  0.302345","row: The Moon Cave (feat. Asha Puthli,...<br>column: Loudness<br>value:  0.686126","row: The Moon Cave (feat. Asha Puthli,...<br>column: Energy<br>value:  0.854083","row: The Moon Cave (feat. Asha Puthli,...<br>column: Liveness<br>value: -0.489082"],["row: Imidiwan Takyadam - feat. José Go...<br>column: Instrumentalness<br>value: -0.751319","row: Imidiwan Takyadam - feat. José Go...<br>column: Duration (ms)<br>value:  0.057037","row: Imidiwan Takyadam - feat. José Go...<br>column: Acousticness<br>value:  0.030112","row: Imidiwan Takyadam - feat. José Go...<br>column: Speechiness<br>value:  0.317087","row: Imidiwan Takyadam - feat. José Go...<br>column: Tempo<br>value:  1.077331","row: Imidiwan Takyadam - feat. José Go...<br>column: Danceability<br>value:  0.330732","row: Imidiwan Takyadam - feat. José Go...<br>column: Valence<br>value:  0.769379","row: Imidiwan Takyadam - feat. José Go...<br>column: Loudness<br>value:  0.128117","row: Imidiwan Takyadam - feat. José Go...<br>column: Energy<br>value:  0.057160","row: Imidiwan Takyadam - feat. José Go...<br>column: Liveness<br>value: -0.970448"],["row: Sagherat Assani - feat. Sulafa Elyas<br>column: Instrumentalness<br>value: -0.750765","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Duration (ms)<br>value: -0.248753","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Acousticness<br>value:  0.425407","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Speechiness<br>value: -0.607486","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Tempo<br>value:  1.829150","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Danceability<br>value:  0.219315","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Valence<br>value:  0.173999","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Loudness<br>value:  0.449073","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Energy<br>value:  0.134908","row: Sagherat Assani - feat. Sulafa Elyas<br>column: Liveness<br>value: -0.704031"],["row: Somebody<br>column: Instrumentalness<br>value: -0.750781","row: Somebody<br>column: Duration (ms)<br>value: -0.425882","row: Somebody<br>column: Acousticness<br>value:  0.878678","row: Somebody<br>column: Speechiness<br>value: -0.670813","row: Somebody<br>column: Tempo<br>value:  0.320247","row: Somebody<br>column: Danceability<br>value:  0.043394","row: Somebody<br>column: Valence<br>value:  0.163304","row: Somebody<br>column: Loudness<br>value:  0.116823","row: Somebody<br>column: Energy<br>value:  0.208770","row: Somebody<br>column: Liveness<br>value: -0.489082"],["row: Crystal Tears<br>column: Instrumentalness<br>value: -0.747003","row: Crystal Tears<br>column: Duration (ms)<br>value: -0.236040","row: Crystal Tears<br>column: Acousticness<br>value:  0.757455","row: Crystal Tears<br>column: Speechiness<br>value: -0.721475","row: Crystal Tears<br>column: Tempo<br>value:  0.325202","row: Crystal Tears<br>column: Danceability<br>value:  1.268977","row: Crystal Tears<br>column: Valence<br>value:  1.207891","row: Crystal Tears<br>column: Loudness<br>value:  0.263115","row: Crystal Tears<br>column: Energy<br>value:  0.072709","row: Crystal Tears<br>column: Liveness<br>value: -0.616235"],["row: Y'a d’la joie<br>column: Instrumentalness<br>value: -0.751356","row: Y'a d’la joie<br>column: Duration (ms)<br>value: -0.923675","row: Y'a d’la joie<br>column: Acousticness<br>value:  1.255526","row: Y'a d’la joie<br>column: Speechiness<br>value:  0.187267","row: Y'a d’la joie<br>column: Tempo<br>value: -1.243368","row: Y'a d’la joie<br>column: Danceability<br>value:  0.442148","row: Y'a d’la joie<br>column: Valence<br>value:  1.589362","row: Y'a d’la joie<br>column: Loudness<br>value:  0.533783","row: Y'a d’la joie<br>column: Energy<br>value: -0.347133","row: Y'a d’la joie<br>column: Liveness<br>value: -0.716746"],["row: I'll Change for You<br>column: Instrumentalness<br>value: -0.589107","row: I'll Change for You<br>column: Duration (ms)<br>value: -0.432402","row: I'll Change for You<br>column: Acousticness<br>value:  0.744278","row: I'll Change for You<br>column: Speechiness<br>value: -0.708809","row: I'll Change for You<br>column: Tempo<br>value: -0.881549","row: I'll Change for You<br>column: Danceability<br>value: -0.431593","row: I'll Change for You<br>column: Valence<br>value:  0.202521","row: I'll Change for You<br>column: Loudness<br>value: -0.470364","row: I'll Change for You<br>column: Energy<br>value: -0.794188","row: I'll Change for You<br>column: Liveness<br>value: -0.495137"],["row: La Beauté<br>column: Instrumentalness<br>value: -0.751105","row: La Beauté<br>column: Duration (ms)<br>value: -0.086302","row: La Beauté<br>column: Acousticness<br>value:  1.329315","row: La Beauté<br>column: Speechiness<br>value:  0.554563","row: La Beauté<br>column: Tempo<br>value: -1.144440","row: La Beauté<br>column: Danceability<br>value: -0.038703","row: La Beauté<br>column: Valence<br>value:  0.213216","row: La Beauté<br>column: Loudness<br>value:  0.169531","row: La Beauté<br>column: Energy<br>value: -0.833062","row: La Beauté<br>column: Liveness<br>value: -0.687077"],["row: Warning<br>column: Instrumentalness<br>value: -0.749593","row: Warning<br>column: Duration (ms)<br>value:  0.185112","row: Warning<br>column: Acousticness<br>value:  1.316138","row: Warning<br>column: Speechiness<br>value:  1.846433","row: Warning<br>column: Tempo<br>value: -0.500770","row: Warning<br>column: Danceability<br>value:  0.700166","row: Warning<br>column: Valence<br>value: -0.153994","row: Warning<br>column: Loudness<br>value:  0.113327","row: Warning<br>column: Energy<br>value: -1.198481","row: Warning<br>column: Liveness<br>value: -0.561741"],["row: Naboo<br>column: Instrumentalness<br>value:  0.645876","row: Naboo<br>column: Duration (ms)<br>value: -0.449859","row: Naboo<br>column: Acousticness<br>value:  1.210726","row: Naboo<br>column: Speechiness<br>value:  4.696145","row: Naboo<br>column: Tempo<br>value:  2.322242","row: Naboo<br>column: Danceability<br>value:  0.964047","row: Naboo<br>column: Valence<br>value:  0.783639","row: Naboo<br>column: Loudness<br>value: -0.885710","row: Naboo<br>column: Energy<br>value: -1.062421","row: Naboo<br>column: Liveness<br>value: -0.640455"],["row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Instrumentalness<br>value:  1.705215","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Duration (ms)<br>value: -1.171211","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Acousticness<br>value:  0.965643","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Speechiness<br>value:  0.814204","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Tempo<br>value: -0.412165","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Danceability<br>value: -1.117685","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Valence<br>value: -0.271644","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Loudness<br>value: -1.244181","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Energy<br>value:  0.550864","row: Purcell: Dido and Aeneas, Z. 626:...<br>column: Liveness<br>value:  0.655298"],["row: Arakatak<br>column: Instrumentalness<br>value:  1.641289","row: Arakatak<br>column: Duration (ms)<br>value:  2.013637","row: Arakatak<br>column: Acousticness<br>value: -0.114830","row: Arakatak<br>column: Speechiness<br>value: -0.607486","row: Arakatak<br>column: Tempo<br>value: -0.639201","row: Arakatak<br>column: Danceability<br>value:  0.096170","row: Arakatak<br>column: Valence<br>value: -0.449901","row: Arakatak<br>column: Loudness<br>value: -0.167829","row: Arakatak<br>column: Energy<br>value: -0.086675","row: Arakatak<br>column: Liveness<br>value: -0.440642"],["row: Doesn’t Matter<br>column: Instrumentalness<br>value:  1.781317","row: Doesn’t Matter<br>column: Duration (ms)<br>value:  0.669621","row: Doesn’t Matter<br>column: Acousticness<br>value:  0.428042","row: Doesn’t Matter<br>column: Speechiness<br>value: -0.433337","row: Doesn’t Matter<br>column: Tempo<br>value: -0.652621","row: Doesn’t Matter<br>column: Danceability<br>value: -2.378453","row: Doesn’t Matter<br>column: Valence<br>value: -1.510175","row: Doesn’t Matter<br>column: Loudness<br>value: -0.612219","row: Doesn’t Matter<br>column: Energy<br>value: -1.408402","row: Doesn’t Matter<br>column: Liveness<br>value: -0.561741"],["row: Piano Sonata No. 2 \"Concord Mass....<br>column: Instrumentalness<br>value:  2.024843","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Duration (ms)<br>value:  0.651316","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Acousticness<br>value:  1.445268","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Speechiness<br>value: -0.347846","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Tempo<br>value: -1.596034","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Danceability<br>value: -0.894852","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Valence<br>value: -1.461333","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Loudness<br>value: -1.526008","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Energy<br>value: -1.930096","row: Piano Sonata No. 2 \"Concord Mass....<br>column: Liveness<br>value: -0.703426"],["row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Instrumentalness<br>value:  2.152695","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Duration (ms)<br>value:  1.193656","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Acousticness<br>value:  1.484797","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Speechiness<br>value:  0.440575","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Tempo<br>value: -1.438919","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Danceability<br>value: -1.094229","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Valence<br>value: -1.514453","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Loudness<br>value: -3.813171","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Energy<br>value: -2.069383","row: Gaspard de la Nuit, M.55: II. Le ...<br>column: Liveness<br>value: -0.757920"],["row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Instrumentalness<br>value: -0.660034","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Duration (ms)<br>value: -0.074892","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Acousticness<br>value:  1.434727","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Speechiness<br>value:  0.184100","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Tempo<br>value: -1.670290","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Danceability<br>value: -2.225988","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Valence<br>value: -1.216407","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Loudness<br>value: -2.280732","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Energy<br>value: -2.000847","row: Purcell: Dido and Aeneas, Z. 626,...<br>column: Liveness<br>value:  1.805732"],["row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Instrumentalness<br>value:  1.382543","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Duration (ms)<br>value:  4.462725","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Acousticness<br>value:  1.371480","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Speechiness<br>value: -0.354179","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Tempo<br>value:  0.404723","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Danceability<br>value: -1.498847","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Valence<br>value: -1.342970","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Loudness<br>value: -1.236920","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Energy<br>value: -1.594999","row: Piano Trio No. 3 in F Minor, Op. ...<br>column: Liveness<br>value: -0.755498"]],"colorscale":[[0,"#440154"],[0.1686056385603317,"#443A83"],[0.18008961221386882,"#433E85"],[0.186523048914642,"#424086"],[0.20492699762187608,"#404588"],[0.21298116306463122,"#3F4788"],[0.2212957297724103,"#3E4989"],[0.25182766436445708,"#3B528B"],[0.26055413596108018,"#3A548C"],[0.26067571055320987,"#3A548C"],[0.26878339069561369,"#38578C"],[0.27014134847523225,"#38588C"],[0.27050587210532923,"#38588C"],[0.27064411199422761,"#38588C"],[0.27197531368135253,"#38588C"],[0.27638399550275722,"#38598C"],[0.27817749418861376,"#375A8C"],[0.27901802350055244,"#375A8C"],[0.28260423813416558,"#375B8D"],[0.29029378619496038,"#365D8D"],[0.29402751104050368,"#355E8D"],[0.29678781498198298,"#355F8D"],[0.30190331937862408,"#34608D"],[0.30199881037896265,"#34608D"],[0.30275659998400695,"#34608D"],[0.30516720696523786,"#34618D"],[0.30727383166274064,"#34618D"],[0.31047861899841761,"#33628D"],[0.3118707205518419,"#33638D"],[0.31362467036056196,"#33638D"],[0.31512338326308065,"#33638D"],[0.31619183408745916,"#32648E"],[0.3167688395671282,"#32648E"],[0.31751113858364827,"#32648E"],[0.3195253642370221,"#32648E"],[0.32012806886364781,"#32658E"],[0.32037777859335187,"#32658E"],[0.32056164311122171,"#32658E"],[0.32326338302385416,"#32658E"],[0.32569671732421246,"#31668E"],[0.32805628367642742,"#31678E"],[0.32824210121110198,"#31678E"],[0.33078160751832048,"#31678E"],[0.33143196888968129,"#31688E"],[0.33174166478080547,"#31688E"],[0.33240023091081644,"#31688E"],[0.33407194399146795,"#31688E"],[0.33956855331864927,"#306A8E"],[0.34295582393112017,"#306A8E"],[0.34367637040288446,"#2F6B8E"],[0.34369592617819977,"#2F6B8E"],[0.34403009889623176,"#2F6B8E"],[0.3445191295812296,"#2F6B8E"],[0.3446250138515724,"#2F6B8E"],[0.3470223956481312,"#2F6B8E"],[0.34957798447648908,"#2F6C8E"],[0.34976596564423418,"#2F6C8E"],[0.34986864875948576,"#2F6C8E"],[0.35021719817544555,"#2F6C8E"],[0.3539923642975677,"#2E6D8E"],[0.354785641421478,"#2E6D8E"],[0.35551660747656749,"#2E6E8E"],[0.35591693662111423,"#2E6E8E"],[0.35620156193224972,"#2E6E8E"],[0.35742757844806305,"#2E6E8E"],[0.35904781504360422,"#2E6F8E"],[0.35923764323016699,"#2E6F8E"],[0.35933244035473971,"#2E6F8E"],[0.35981920842578402,"#2E6F8E"],[0.35982010991732172,"#2E6F8E"],[0.3598203388675536,"#2E6F8E"],[0.35982357278957777,"#2E6F8E"],[0.35983053464922676,"#2E6F8E"],[0.35984864999465488,"#2E6F8E"],[0.35986464073740732,"#2E6F8E"],[0.35987537277952303,"#2E6F8E"],[0.35988682029111313,"#2E6F8E"],[0.35988860896479907,"#2E6F8E"],[0.36002633683861757,"#2E6F8E"],[0.36033076909996686,"#2E6F8E"],[0.36037369726842983,"#2E6F8E"],[0.360559719331769,"#2E6F8E"],[0.36122471361582975,"#2E6F8E"],[0.36279797639186895,"#2D708E"],[0.36333078255912643,"#2D708E"],[0.36388644533290704,"#2D708E"],[0.36432167252707182,"#2D708E"],[0.36481919686056624,"#2D708E"],[0.36482749474645543,"#2D708E"],[0.36538072821636819,"#2D708E"],[0.36545188454415206,"#2D708E"],[0.36556045609156856,"#2D708E"],[0.36586492548430877,"#2D708E"],[0.36737310539431633,"#2D718E"],[0.3680761717640349,"#2D718E"],[0.36928443976488562,"#2D718E"],[0.37055125054150839,"#2D718E"],[0.37142238052299675,"#2C718E"],[0.37175437391405269,"#2C718E"],[0.37219452416837417,"#2C718E"],[0.37285214263367389,"#2C718E"],[0.37299945370310933,"#2C718E"],[0.37561020054600475,"#2C728E"],[0.3756983957450285,"#2C728E"],[0.376170335032321,"#2C728E"],[0.37635440769672462,"#2C728E"],[0.37672651127208456,"#2C728E"],[0.37710972987513441,"#2C728E"],[0.3774707184228045,"#2C728E"],[0.37882653691475615,"#2C738E"],[0.3788864699180543,"#2C738E"],[0.38128329265723271,"#2C738E"],[0.38210246524557623,"#2C738E"],[0.38393349160783435,"#2B748E"],[0.38430369397952852,"#2B748E"],[0.38524805540198392,"#2B748E"],[0.38602910065608337,"#2B748E"],[0.38644730920281078,"#2B758E"],[0.38854215719862456,"#2B758E"],[0.38926757012257862,"#2B758E"],[0.38992966130180123,"#2B758E"],[0.39049434356040275,"#2A768E"],[0.39064122457963996,"#2A768E"],[0.39100677484884666,"#2A768E"],[0.39205110824667611,"#2A768E"],[0.39284090982267206,"#2A768E"],[0.39309906858792237,"#2A768E"],[0.39524567078522849,"#2A778E"],[0.39525059333806228,"#2A778E"],[0.39633373080234907,"#2A778E"],[0.39681531928497638,"#2A778E"],[0.39719220791688181,"#2A778E"],[0.3973021074892471,"#2A778E"],[0.39739718616152447,"#2A778E"],[0.39756431149224175,"#2A778E"],[0.39806831258772885,"#2A788E"],[0.39968029688870682,"#2A788E"],[0.40012270000803291,"#2A788E"],[0.40649479730088056,"#297A8E"],[0.40649848418377399,"#297A8E"],[0.40723900445160044,"#297A8E"],[0.40732273875085101,"#297A8E"],[0.40882870543953154,"#297A8E"],[0.40911241600857351,"#297A8E"],[0.40947432571494458,"#297A8E"],[0.40954893823210431,"#297A8E"],[0.41536539268595374,"#287C8E"],[0.41619415074336585,"#287C8E"],[0.41691369741095913,"#287C8E"],[0.41888418960073104,"#287D8E"],[0.4203782895427704,"#287D8E"],[0.42332426325824124,"#277E8E"],[0.42370553518292725,"#277E8E"],[0.42839426838029293,"#277F8E"],[0.42844890824711751,"#277F8E"],[0.42847420416460291,"#277F8E"],[0.43002014751573653,"#27808E"],[0.43062179930561639,"#27808E"],[0.43208162533832789,"#27808E"],[0.43342966294311663,"#26818E"],[0.43462263981226623,"#26818E"],[0.43793130849926826,"#26828E"],[0.43797514738577625,"#26828E"],[0.43931600630811923,"#26828E"],[0.44356897438224713,"#26828E"],[0.44519356913831531,"#25838E"],[0.44854250131655482,"#25838E"],[0.44891460489191476,"#25838E"],[0.4493257518431748,"#25848E"],[0.44980926093895263,"#25848E"],[0.45165591382409753,"#25848E"],[0.45283024009539496,"#25848E"],[0.45306347546968756,"#25858E"],[0.45321681072687575,"#25858E"],[0.4548201664758969,"#25858E"],[0.45483454850958832,"#25858E"],[0.45604688059177584,"#25858E"],[0.4566619258080013,"#25858E"],[0.45735159773171657,"#24868E"],[0.45920717913023107,"#24868E"],[0.45941899123413704,"#24868E"],[0.45966286252998817,"#24868E"],[0.45985983608022396,"#24868E"],[0.46010812240161053,"#24868E"],[0.46143518959984198,"#24878E"],[0.46184602840984113,"#24878E"],[0.4624890779995468,"#24878E"],[0.46317335379599228,"#24878E"],[0.46393224219701995,"#24878E"],[0.46397143500165311,"#24878E"],[0.46661807920290843,"#23888E"],[0.467308441841221,"#23888E"],[0.46751714271411215,"#23888E"],[0.46804021354521325,"#23888E"],[0.46856535063870919,"#23888E"],[0.46975240511207195,"#23898E"],[0.46987130787919729,"#23898E"],[0.47011885515635188,"#23898E"],[0.47012450868743194,"#23898E"],[0.47128094419530508,"#23898E"],[0.47191710743201126,"#23898E"],[0.47265147716911482,"#238A8D"],[0.47317401622949951,"#238A8D"],[0.47389074575107987,"#238A8D"],[0.47903805245903736,"#228B8D"],[0.47938853295871342,"#228B8D"],[0.48071546901442891,"#228C8D"],[0.48352023740039013,"#228C8D"],[0.48364825620856811,"#228C8D"],[0.48417398239213899,"#228C8D"],[0.48538075527718977,"#228D8D"],[0.48575209852639123,"#228D8D"],[0.48633440246981746,"#228D8D"],[0.48698423793307583,"#228D8D"],[0.49249728727286357,"#218F8D"],[0.49319493035974871,"#218F8D"],[0.49438125122325455,"#218F8D"],[0.49457950679248658,"#218F8D"],[0.49556641381515798,"#218F8D"],[0.49567957200633089,"#218F8D"],[0.49594294311023096,"#218F8D"],[0.49640738204848345,"#21908D"],[0.49811029749272823,"#21908D"],[0.49841999338385246,"#21908D"],[0.49951040608895203,"#21908D"],[0.49989279471622788,"#21908D"],[0.50007773011507184,"#21918C"],[0.50089151685245492,"#21918C"],[0.50459673616670553,"#20928C"],[0.50506311092321576,"#20928C"],[0.50512631689398491,"#20928C"],[0.50547394973321491,"#20928C"],[0.50600111286515159,"#20928C"],[0.50691480151435808,"#20928C"],[0.50773812160253706,"#20928C"],[0.50876066021320832,"#20928C"],[0.51061728566616671,"#20928C"],[0.51084645724858879,"#20928C"],[0.51248209112959431,"#20938C"],[0.51285377773420027,"#20938C"],[0.5131712222970678,"#20938C"],[0.51328852342918607,"#20938C"],[0.51334309309396842,"#20938C"],[0.51422431070801,"#20938C"],[0.51808354090165121,"#1F948C"],[0.51829569700131339,"#1F948C"],[0.51867249021689577,"#1F948C"],[0.5186842716368556,"#1F948C"],[0.5186967528812052,"#1F948C"],[0.51885041642183161,"#1F948C"],[0.52059597823972303,"#1F958B"],[0.52401945279636641,"#1F968B"],[0.5246588034461328,"#1F968B"],[0.52512668409114305,"#1F968B"],[0.52551024246702083,"#1F968B"],[0.52680596486778752,"#1F968B"],[0.5268099242601203,"#1F968B"],[0.52701138427278715,"#1F968B"],[0.52827550368816922,"#1F978B"],[0.5287495484689374,"#1F978B"],[0.52891687359430395,"#1F978B"],[0.52975701774452022,"#1F978B"],[0.53025386864726121,"#1F978B"],[0.53039950148390458,"#1F978B"],[0.53067846527267604,"#1F978B"],[0.53093806195189386,"#1F978B"],[0.53224872971144677,"#1F988B"],[0.5355835003187569,"#1F998A"],[0.53660168199116587,"#1F998A"],[0.53713197977437799,"#1F998A"],[0.53853327369888793,"#1F998A"],[0.54020915209553899,"#1F9A8A"],[0.54116952172506627,"#1F9A8A"],[0.54211473133095367,"#1F9A8A"],[0.54380101660870184,"#1E9B8A"],[0.54718514570414101,"#1E9C89"],[0.54803079072865002,"#1E9C89"],[0.54848763505325315,"#1E9C89"],[0.54878584120274332,"#1E9C89"],[0.54900604300568845,"#1E9C89"],[0.5513779907660914,"#1E9D89"],[0.55235927047125866,"#1E9D89"],[0.55621557914353936,"#1F9E89"],[0.55625398857150832,"#1F9E89"],[0.56141040402021092,"#1F9F88"],[0.56159795517319011,"#1F9F88"],[0.5620995351876843,"#1F9F88"],[0.5626687881646526,"#1F9F88"],[0.56310665344055699,"#1FA088"],[0.5636708473188673,"#1FA088"],[0.56515894757330964,"#1FA088"],[0.56539087506357322,"#1FA088"],[0.56636884447183988,"#1FA088"],[0.5663973542057843,"#1FA088"],[0.57163187203274501,"#1FA187"],[0.57472328854905186,"#1FA287"],[0.57517552021465235,"#1FA287"],[0.58347487287391164,"#20A486"],[0.58363173012799563,"#20A486"],[0.58690825721672935,"#21A585"],[0.58731940264452887,"#21A585"],[0.58839365905058882,"#21A585"],[0.59006653439590584,"#21A585"],[0.5903996730477411,"#21A685"],[0.59153327113809839,"#21A685"],[0.59557144859716848,"#22A785"],[0.59566450319685271,"#22A785"],[0.59586696239388448,"#22A785"],[0.59724522472883146,"#22A785"],[0.59770613843068443,"#22A785"],[0.6010247323826261,"#22A884"],[0.60278750869270936,"#23A983"],[0.60433598814833045,"#23A983"],[0.60724428796157848,"#24AA83"],[0.60929112240631755,"#24AA83"],[0.61059125919654267,"#25AB82"],[0.61143398395320592,"#25AB82"],[0.61198899617310409,"#25AB82"],[0.61478574074650794,"#25AC82"],[0.61655743941913643,"#25AC82"],[0.61672382379329849,"#25AC82"],[0.61796260735779529,"#26AD81"],[0.62260804572465844,"#27AD81"],[0.6282561272651378,"#28AE80"],[0.63489628150631983,"#2AB07F"],[0.63613055543397112,"#2AB07F"],[0.64099871185776158,"#2CB17E"],[0.64851114133876864,"#2EB37C"],[0.65745450976853892,"#32B67A"],[0.65835857905943362,"#32B67A"],[0.66032370688048492,"#33B67A"],[0.66307578063182238,"#34B679"],[0.66510678217604535,"#35B779"],[0.68475640101751567,"#3CBC74"],[0.6860732887438038,"#3DBC74"],[0.7010981477058178,"#44BF70"],[0.71511407927406023,"#4BC16D"],[0.72102311055749846,"#4EC36B"],[0.72721065499731719,"#51C46A"],[0.97256889542932456,"#ECE51B"],[1,"#FDE725"]],"type":"heatmap","showscale":false,"autocolorscale":false,"showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[1],"y":[1],"name":"58bc7fb0385835e079d8509e3d96122c","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#440154"],[0.0033444816053511653,"#440256"],[0.0066889632107023306,"#450357"],[0.010033444816053496,"#450558"],[0.013377926421404661,"#450659"],[0.016722408026755828,"#46075B"],[0.020066889632107045,"#46085C"],[0.02341137123745821,"#460A5D"],[0.026755852842809374,"#460B5E"],[0.030100334448160539,"#470C5F"],[0.033444816053511704,"#470E61"],[0.036789297658862873,"#470F62"],[0.040133779264214034,"#471063"],[0.043478260869565202,"#471164"],[0.046822742474916364,"#471365"],[0.050167224080267588,"#481467"],[0.053511705685618749,"#481568"],[0.056856187290969917,"#481768"],[0.060200668896321079,"#481769"],[0.06354515050167224,"#48186A"],[0.066889632107023408,"#481A6C"],[0.070234113712374577,"#481B6D"],[0.073578595317725745,"#481C6E"],[0.076923076923076913,"#481D6F"],[0.080267558528428068,"#481E6F"],[0.083612040133779236,"#481F70"],[0.08695652173913046,"#482071"],[0.090301003344481615,"#482173"],[0.093645484949832783,"#482374"],[0.096989966555183951,"#482475"],[0.10033444816053512,"#482576"],[0.10367892976588629,"#482576"],[0.10702341137123744,"#482777"],[0.11036789297658861,"#482878"],[0.11371237458193983,"#482979"],[0.11705685618729099,"#472A7A"],[0.12040133779264216,"#472B7A"],[0.12374581939799333,"#472D7B"],[0.12709030100334448,"#472D7B"],[0.13043478260869565,"#472E7C"],[0.13377926421404682,"#472F7D"],[0.13712374581939799,"#46307E"],[0.14046822742474915,"#46327E"],[0.14381270903010032,"#46337F"],[0.14715719063545149,"#463480"],[0.15050167224080266,"#463480"],[0.15384615384615383,"#453581"],[0.15719063545150502,"#453781"],[0.16053511705685619,"#453882"],[0.16387959866220736,"#443983"],[0.16722408026755853,"#443A83"],[0.1705685618729097,"#443A83"],[0.17391304347826092,"#443C84"],[0.17725752508361209,"#433D84"],[0.18060200668896323,"#433E85"],[0.1839464882943144,"#423F85"],[0.18729096989966557,"#424086"],[0.19063545150501673,"#424186"],[0.1939799331103679,"#424186"],[0.19732441471571907,"#414387"],[0.20066889632107024,"#414487"],[0.20401337792642141,"#404588"],[0.20735785953177258,"#404688"],[0.21070234113712372,"#3F4788"],[0.21404682274247491,"#3F4889"],[0.21739130434782608,"#3F4889"],[0.22073578595317725,"#3E4989"],[0.22408026755852845,"#3E4A89"],[0.22742474916387961,"#3E4C8A"],[0.23076923076923078,"#3D4D8A"],[0.23411371237458195,"#3D4E8A"],[0.23745819397993309,"#3C4F8A"],[0.24080267558528426,"#3C4F8A"],[0.24414715719063543,"#3C508B"],[0.24749163879598665,"#3B518B"],[0.25083612040133779,"#3B528B"],[0.25418060200668896,"#3A538B"],[0.25752508361204013,"#3A548C"],[0.2608695652173913,"#39558C"],[0.26421404682274247,"#39558C"],[0.26755852842809363,"#39568C"],[0.2709030100334448,"#38588C"],[0.27424749163879597,"#38598C"],[0.27759197324414714,"#375A8C"],[0.28093645484949836,"#375B8D"],[0.28428093645484953,"#375B8D"],[0.2876254180602007,"#365C8D"],[0.29096989966555187,"#365D8D"],[0.29431438127090304,"#355E8D"],[0.2976588628762542,"#355F8D"],[0.30100334448160537,"#34608D"],[0.30434782608695654,"#34618D"],[0.30769230769230765,"#34618D"],[0.31103678929765882,"#33628D"],[0.31438127090301005,"#33638D"],[0.31772575250836121,"#32648E"],[0.32107023411371238,"#32658E"],[0.32441471571906355,"#31668E"],[0.32775919732441472,"#31678E"],[0.33110367892976589,"#31678E"],[0.33444816053511706,"#31688E"],[0.33779264214046822,"#30698E"],[0.34113712374581939,"#306A8E"],[0.34448160535117056,"#2F6B8E"],[0.34782608695652178,"#2F6C8E"],[0.35117056856187295,"#2E6D8E"],[0.35451505016722412,"#2E6D8E"],[0.35785953177257529,"#2E6E8E"],[0.3612040133779264,"#2E6F8E"],[0.36454849498327757,"#2D708E"],[0.36789297658862874,"#2D718E"],[0.37123745819397991,"#2C718E"],[0.37458193979933108,"#2C728E"],[0.37792642140468224,"#2C728E"],[0.38127090301003347,"#2C738E"],[0.38461538461538464,"#2B748E"],[0.38795986622073581,"#2B758E"],[0.39130434782608697,"#2A768E"],[0.39464882943143814,"#2A778E"],[0.39799331103678931,"#2A778E"],[0.40133779264214048,"#2A788E"],[0.40468227424749165,"#29798E"],[0.40802675585284282,"#297A8E"],[0.41137123745819398,"#297B8E"],[0.41471571906354521,"#287C8E"],[0.41806020066889632,"#287D8E"],[0.42140468227424749,"#287D8E"],[0.42474916387959866,"#277E8E"],[0.42809364548494983,"#277F8E"],[0.43143812709030099,"#27808E"],[0.43478260869565216,"#26818E"],[0.43812709030100333,"#26828E"],[0.4414715719063545,"#26828E"],[0.44481605351170572,"#26828E"],[0.44816053511705689,"#25838E"],[0.45150501672240806,"#25848E"],[0.45484949832775923,"#25858E"],[0.4581939799331104,"#24868E"],[0.46153846153846156,"#24878E"],[0.46488294314381273,"#23888E"],[0.4682274247491639,"#23888E"],[0.47157190635451507,"#23898E"],[0.47491638795986618,"#238A8D"],[0.47826086956521735,"#228B8D"],[0.48160535117056852,"#228C8D"],[0.48494983277591969,"#228D8D"],[0.48829431438127086,"#218E8D"],[0.49163879598662202,"#218E8D"],[0.4949832775919733,"#218F8D"],[0.49832775919732447,"#21908D"],[0.50167224080267558,"#21918C"],[0.50501672240802675,"#20928C"],[0.50836120401337792,"#20928C"],[0.51170568561872909,"#20928C"],[0.51505016722408026,"#20938C"],[0.51839464882943143,"#1F948C"],[0.52173913043478259,"#1F958B"],[0.52508361204013376,"#1F968B"],[0.52842809364548493,"#1F978B"],[0.5317725752508361,"#1F988B"],[0.53511705685618727,"#1F988B"],[0.53846153846153844,"#1F998A"],[0.5418060200668896,"#1F9A8A"],[0.54515050167224077,"#1E9B8A"],[0.54849498327759194,"#1E9C89"],[0.55183946488294311,"#1E9D89"],[0.55518394648829428,"#1F9E89"],[0.55852842809364545,"#1F9E89"],[0.56187290969899673,"#1F9F88"],[0.56521739130434789,"#1FA088"],[0.56856187290969906,"#1FA188"],[0.57190635451505023,"#1FA187"],[0.5752508361204014,"#1FA287"],[0.57859531772575257,"#20A386"],[0.58193979933110374,"#20A386"],[0.5852842809364549,"#20A486"],[0.58862876254180607,"#21A585"],[0.59197324414715724,"#21A685"],[0.59531772575250841,"#22A785"],[0.59866220735785958,"#22A884"],[0.60200668896321075,"#23A983"],[0.60535117056856191,"#23A983"],[0.60869565217391308,"#24AA83"],[0.61204013377926425,"#25AB82"],[0.61538461538461531,"#25AC82"],[0.61872909698996648,"#26AD81"],[0.62207357859531764,"#27AD81"],[0.62541806020066881,"#27AD81"],[0.62876254180602009,"#28AE80"],[0.63210702341137126,"#29AF7F"],[0.63545150501672243,"#2AB07F"],[0.6387959866220736,"#2CB17E"],[0.64214046822742477,"#2DB27D"],[0.64548494983277593,"#2EB37C"],[0.6488294314381271,"#2EB37C"],[0.65217391304347827,"#30B47C"],[0.65551839464882944,"#31B57B"],[0.65886287625418061,"#32B67A"],[0.66220735785953178,"#34B679"],[0.66555183946488294,"#35B779"],[0.66889632107023411,"#36B878"],[0.67224080267558528,"#37B878"],[0.67558528428093645,"#39B977"],[0.67892976588628762,"#3ABA76"],[0.68227424749163879,"#3BBB75"],[0.68561872909698995,"#3DBC74"],[0.68896321070234112,"#3EBC73"],[0.6923076923076924,"#40BD72"],[0.69565217391304357,"#41BD72"],[0.69899665551839474,"#42BE71"],[0.70234113712374591,"#44BF70"],[0.70568561872909707,"#46C06F"],[0.70903010033444824,"#48C16E"],[0.71237458193979941,"#49C16D"],[0.71571906354515058,"#4BC26C"],[0.71906354515050175,"#4DC26C"],[0.72240802675585281,"#4EC36B"],[0.72575250836120397,"#50C46A"],[0.72909698996655514,"#52C569"],[0.73244147157190631,"#54C568"],[0.73578595317725748,"#55C667"],[0.73913043478260865,"#57C666"],[0.74247491638795982,"#59C765"],[0.74581939799331098,"#5AC864"],[0.74916387959866215,"#5CC863"],[0.75250836120401332,"#5EC962"],[0.75585284280936449,"#5FCA61"],[0.75919732441471577,"#62CB5F"],[0.76254180602006694,"#64CB5F"],[0.76588628762541811,"#66CB5D"],[0.76923076923076927,"#67CC5C"],[0.77257525083612044,"#69CD5B"],[0.77591973244147161,"#6CCD5A"],[0.77926421404682278,"#6DCE59"],[0.78260869565217395,"#6FCF57"],[0.78595317725752512,"#71CF57"],[0.78929765886287628,"#74D055"],[0.79264214046822745,"#75D054"],[0.79598662207357862,"#77D153"],[0.79933110367892979,"#79D151"],[0.80267558528428096,"#7BD250"],[0.80602006688963213,"#7ED34F"],[0.80936454849498329,"#80D34E"],[0.81270903010033446,"#82D34D"],[0.81605351170568563,"#84D44B"],[0.8193979933110368,"#86D549"],[0.82274247491638797,"#88D548"],[0.82608695652173925,"#8AD647"],[0.82943143812709041,"#8DD645"],[0.83277591973244147,"#8FD644"],[0.83612040133779264,"#91D743"],[0.83946488294314381,"#93D741"],[0.84280936454849498,"#95D840"],[0.84615384615384615,"#97D83E"],[0.84949832775919731,"#9AD93D"],[0.85284280936454848,"#9CD93C"],[0.85618729096989965,"#9ED93A"],[0.85953177257525082,"#A0DA39"],[0.86287625418060199,"#A2DA37"],[0.86622073578595316,"#A5DB36"],[0.86956521739130432,"#A7DB35"],[0.87290969899665549,"#A9DC33"],[0.87625418060200666,"#ABDC31"],[0.87959866220735783,"#AEDC30"],[0.882943143812709,"#B0DD2F"],[0.88628762541806017,"#B2DD2D"],[0.88963210702341144,"#B5DE2B"],[0.89297658862876261,"#B7DE2A"],[0.89632107023411378,"#B9DE28"],[0.89966555183946495,"#BBDE27"],[0.90301003344481612,"#BEDF26"],[0.90635451505016729,"#C0DF25"],[0.90969899665551845,"#C2DF23"],[0.91304347826086962,"#C4E021"],[0.91638795986622079,"#C7E020"],[0.91973244147157196,"#C9E11F"],[0.92307692307692313,"#CBE11E"],[0.9264214046822743,"#CEE11D"],[0.92976588628762546,"#D0E11C"],[0.93311036789297663,"#D2E21B"],[0.9364548494983278,"#D4E21A"],[0.93979933110367897,"#D7E219"],[0.94314381270903014,"#D9E319"],[0.94648829431438131,"#DBE319"],[0.94983277591973236,"#DDE318"],[0.95317725752508364,"#DFE318"],[0.9565217391304347,"#E2E418"],[0.95986622073578598,"#E4E419"],[0.96321070234113704,"#E6E419"],[0.96655518394648832,"#E8E419"],[0.96989966555183937,"#EBE51A"],[0.97324414715719065,"#EDE51B"],[0.97658862876254171,"#EFE51C"],[0.97993311036789299,"#F1E51D"],[0.98327759197324405,"#F3E61E"],[0.98662207357859533,"#F5E61F"],[0.98996655518394661,"#F7E620"],[0.99331103678929766,"#F9E622"],[0.99665551839464894,"#FBE723"],[1,"#FDE725"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"thickness":23.039999999999996,"title":null,"titlefont":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"tickmode":"array","ticktext":["-2","0","2","4"],"tickvals":[0.21403712952652057,0.44829018262061343,0.68254323571470632,0.91679628880879915],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y2","frame":null},{"x":[8.3909380969378944,8.3909380969378944,null,8.3909380969378944,5.7053893289125996,null,5.7053893289125996,5.7053893289125996,null,5.7053893289125996,4.8871210088715245,null,4.8871210088715245,4.8871210088715245,null,4.8871210088715245,3.9998675859476962,null,3.9998675859476962,3.9998675859476962,null,3.9998675859476962,2.3440701478823156,null,2.3440701478823156,2.3440701478823156,null,2.3440701478823156,0,null,2.3440701478823156,2.3440701478823156,null,2.3440701478823156,0,null,3.9998675859476962,3.9998675859476962,null,3.9998675859476962,2.9585923187730834,null,2.9585923187730834,2.9585923187730834,null,2.9585923187730834,1.3832662699636999,null,1.3832662699636999,1.3832662699636999,null,1.3832662699636999,0,null,1.3832662699636999,1.3832662699636999,null,1.3832662699636999,0,null,2.9585923187730834,2.9585923187730834,null,2.9585923187730834,1.6185865883069832,null,1.6185865883069832,1.6185865883069832,null,1.6185865883069832,0,null,1.6185865883069832,1.6185865883069832,null,1.6185865883069832,0,null,4.8871210088715245,4.8871210088715245,null,4.8871210088715245,3.071858857267908,null,3.071858857267908,3.071858857267908,null,3.071858857267908,2.7026694851649697,null,2.7026694851649697,2.7026694851649697,null,2.7026694851649697,0,null,2.7026694851649697,2.7026694851649697,null,2.7026694851649697,2.5330567658903949,null,2.5330567658903949,2.5330567658903949,null,2.5330567658903949,0,null,2.5330567658903949,2.5330567658903949,null,2.5330567658903949,1.1622080511152364,null,1.1622080511152364,1.1622080511152364,null,1.1622080511152364,0,null,1.1622080511152364,1.1622080511152364,null,1.1622080511152364,0,null,3.071858857267908,3.071858857267908,null,3.071858857267908,0,null,5.7053893289125996,5.7053893289125996,null,5.7053893289125996,4.6612601256707524,null,4.6612601256707524,4.6612601256707524,null,4.6612601256707524,4.0225507769300188,null,4.0225507769300188,4.0225507769300188,null,4.0225507769300188,2.2988622762446216,null,2.2988622762446216,2.2988622762446216,null,2.2988622762446216,0,null,2.2988622762446216,2.2988622762446216,null,2.2988622762446216,1.743379676397677,null,1.743379676397677,1.743379676397677,null,1.743379676397677,0,null,1.743379676397677,1.743379676397677,null,1.743379676397677,0,null,4.0225507769300188,4.0225507769300188,null,4.0225507769300188,3.0553236297711028,null,3.0553236297711028,3.0553236297711028,null,3.0553236297711028,2.0822800888640804,null,2.0822800888640804,2.0822800888640804,null,2.0822800888640804,1.9297100842698418,null,1.9297100842698418,1.9297100842698418,null,1.9297100842698418,1.0048002238626002,null,1.0048002238626002,1.0048002238626002,null,1.0048002238626002,0,null,1.0048002238626002,1.0048002238626002,null,1.0048002238626002,0,null,1.9297100842698418,1.9297100842698418,null,1.9297100842698418,1.624620241257875,null,1.624620241257875,1.624620241257875,null,1.624620241257875,0,null,1.624620241257875,1.624620241257875,null,1.624620241257875,0,null,2.0822800888640804,2.0822800888640804,null,2.0822800888640804,0,null,3.0553236297711028,3.0553236297711028,null,3.0553236297711028,2.1452660227861862,null,2.1452660227861862,2.1452660227861862,null,2.1452660227861862,1.488878665131391,null,1.488878665131391,1.488878665131391,null,1.488878665131391,0,null,1.488878665131391,1.488878665131391,null,1.488878665131391,0,null,2.1452660227861862,2.1452660227861862,null,2.1452660227861862,1.643970826476733,null,1.643970826476733,1.643970826476733,null,1.643970826476733,0,null,1.643970826476733,1.643970826476733,null,1.643970826476733,0,null,4.6612601256707524,4.6612601256707524,null,4.6612601256707524,3.0536735707233507,null,3.0536735707233507,3.0536735707233507,null,3.0536735707233507,2.3252841135267071,null,2.3252841135267071,2.3252841135267071,null,2.3252841135267071,0,null,2.3252841135267071,2.3252841135267071,null,2.3252841135267071,1.6600641582296576,null,1.6600641582296576,1.6600641582296576,null,1.6600641582296576,0,null,1.6600641582296576,1.6600641582296576,null,1.6600641582296576,0,null,3.0536735707233507,3.0536735707233507,null,3.0536735707233507,0,null,8.3909380969378944,8.3909380969378944,null,8.3909380969378944,8.0556308879837584,null,8.0556308879837584,8.0556308879837584,null,8.0556308879837584,0,null,8.0556308879837584,8.0556308879837584,null,8.0556308879837584,6.4753859311994555,null,6.4753859311994555,6.4753859311994555,null,6.4753859311994555,5.736155835747315,null,5.736155835747315,5.736155835747315,null,5.736155835747315,4.2022382290518019,null,4.2022382290518019,4.2022382290518019,null,4.2022382290518019,0,null,4.2022382290518019,4.2022382290518019,null,4.2022382290518019,3.5688799654460368,null,3.5688799654460368,3.5688799654460368,null,3.5688799654460368,0,null,3.5688799654460368,3.5688799654460368,null,3.5688799654460368,2.3070397898867574,null,2.3070397898867574,2.3070397898867574,null,2.3070397898867574,0,null,2.3070397898867574,2.3070397898867574,null,2.3070397898867574,0,null,5.736155835747315,5.736155835747315,null,5.736155835747315,4.4651497982900983,null,4.4651497982900983,4.4651497982900983,null,4.4651497982900983,0,null,4.4651497982900983,4.4651497982900983,null,4.4651497982900983,0,null,6.4753859311994555,6.4753859311994555,null,6.4753859311994555,0],"y":[22.1484375,13.625,null,13.625,13.625,null,13.625,6.21875,null,6.21875,6.21875,null,6.21875,3,null,3,3,null,3,1.5,null,1.5,1.5,null,1.5,1,null,1,1,null,1.5,2,null,2,2,null,3,4.5,null,4.5,4.5,null,4.5,3.5,null,3.5,3.5,null,3.5,3,null,3,3,null,3.5,4,null,4,4,null,4.5,5.5,null,5.5,5.5,null,5.5,5,null,5,5,null,5.5,6,null,6,6,null,6.21875,9.4375,null,9.4375,9.4375,null,9.4375,7.875,null,7.875,7.875,null,7.875,7,null,7,7,null,7.875,8.75,null,8.75,8.75,null,8.75,8,null,8,8,null,8.75,9.5,null,9.5,9.5,null,9.5,9,null,9,9,null,9.5,10,null,10,10,null,9.4375,11,null,11,11,null,13.625,21.03125,null,21.03125,21.03125,null,21.03125,16.1875,null,16.1875,16.1875,null,16.1875,12.75,null,12.75,12.75,null,12.75,12,null,12,12,null,12.75,13.5,null,13.5,13.5,null,13.5,13,null,13,13,null,13.5,14,null,14,14,null,16.1875,19.625,null,19.625,19.625,null,19.625,17.75,null,17.75,17.75,null,17.75,16.5,null,16.5,16.5,null,16.5,15.5,null,15.5,15.5,null,15.5,15,null,15,15,null,15.5,16,null,16,16,null,16.5,17.5,null,17.5,17.5,null,17.5,17,null,17,17,null,17.5,18,null,18,18,null,17.75,19,null,19,19,null,19.625,21.5,null,21.5,21.5,null,21.5,20.5,null,20.5,20.5,null,20.5,20,null,20,20,null,20.5,21,null,21,21,null,21.5,22.5,null,22.5,22.5,null,22.5,22,null,22,22,null,22.5,23,null,23,23,null,21.03125,25.875,null,25.875,25.875,null,25.875,24.75,null,24.75,24.75,null,24.75,24,null,24,24,null,24.75,25.5,null,25.5,25.5,null,25.5,25,null,25,25,null,25.5,26,null,26,26,null,25.875,27,null,27,27,null,22.1484375,30.671875,null,30.671875,30.671875,null,30.671875,28,null,28,28,null,30.671875,33.34375,null,33.34375,33.34375,null,33.34375,31.6875,null,31.6875,31.6875,null,31.6875,29.875,null,29.875,29.875,null,29.875,29,null,29,29,null,29.875,30.75,null,30.75,30.75,null,30.75,30,null,30,30,null,30.75,31.5,null,31.5,31.5,null,31.5,31,null,31,31,null,31.5,32,null,32,32,null,31.6875,33.5,null,33.5,33.5,null,33.5,33,null,33,33,null,33.5,34,null,34,34,null,33.34375,35,null,35,35],"text":["y: 8.390938","y: 8.390938",null,"y: 8.390938","y: 8.390938",null,"y: 5.705389","y: 5.705389",null,"y: 5.705389","y: 5.705389",null,"y: 4.887121","y: 4.887121",null,"y: 4.887121","y: 4.887121",null,"y: 3.999868","y: 3.999868",null,"y: 3.999868","y: 3.999868",null,"y: 2.344070","y: 2.344070",null,"y: 2.344070","y: 2.344070",null,"y: 2.344070","y: 2.344070",null,"y: 2.344070","y: 2.344070",null,"y: 3.999868","y: 3.999868",null,"y: 3.999868","y: 3.999868",null,"y: 2.958592","y: 2.958592",null,"y: 2.958592","y: 2.958592",null,"y: 1.383266","y: 1.383266",null,"y: 1.383266","y: 1.383266",null,"y: 1.383266","y: 1.383266",null,"y: 1.383266","y: 1.383266",null,"y: 2.958592","y: 2.958592",null,"y: 2.958592","y: 2.958592",null,"y: 1.618587","y: 1.618587",null,"y: 1.618587","y: 1.618587",null,"y: 1.618587","y: 1.618587",null,"y: 1.618587","y: 1.618587",null,"y: 4.887121","y: 4.887121",null,"y: 4.887121","y: 4.887121",null,"y: 3.071859","y: 3.071859",null,"y: 3.071859","y: 3.071859",null,"y: 2.702669","y: 2.702669",null,"y: 2.702669","y: 2.702669",null,"y: 2.702669","y: 2.702669",null,"y: 2.702669","y: 2.702669",null,"y: 2.533057","y: 2.533057",null,"y: 2.533057","y: 2.533057",null,"y: 2.533057","y: 2.533057",null,"y: 2.533057","y: 2.533057",null,"y: 1.162208","y: 1.162208",null,"y: 1.162208","y: 1.162208",null,"y: 1.162208","y: 1.162208",null,"y: 1.162208","y: 1.162208",null,"y: 3.071859","y: 3.071859",null,"y: 3.071859","y: 3.071859",null,"y: 5.705389","y: 5.705389",null,"y: 5.705389","y: 5.705389",null,"y: 4.661260","y: 4.661260",null,"y: 4.661260","y: 4.661260",null,"y: 4.022551","y: 4.022551",null,"y: 4.022551","y: 4.022551",null,"y: 2.298862","y: 2.298862",null,"y: 2.298862","y: 2.298862",null,"y: 2.298862","y: 2.298862",null,"y: 2.298862","y: 2.298862",null,"y: 1.743380","y: 1.743380",null,"y: 1.743380","y: 1.743380",null,"y: 1.743380","y: 1.743380",null,"y: 1.743380","y: 1.743380",null,"y: 4.022551","y: 4.022551",null,"y: 4.022551","y: 4.022551",null,"y: 3.055324","y: 3.055324",null,"y: 3.055324","y: 3.055324",null,"y: 2.082280","y: 2.082280",null,"y: 2.082280","y: 2.082280",null,"y: 1.929710","y: 1.929710",null,"y: 1.929710","y: 1.929710",null,"y: 1.004800","y: 1.004800",null,"y: 1.004800","y: 1.004800",null,"y: 1.004800","y: 1.004800",null,"y: 1.004800","y: 1.004800",null,"y: 1.929710","y: 1.929710",null,"y: 1.929710","y: 1.929710",null,"y: 1.624620","y: 1.624620",null,"y: 1.624620","y: 1.624620",null,"y: 1.624620","y: 1.624620",null,"y: 1.624620","y: 1.624620",null,"y: 2.082280","y: 2.082280",null,"y: 2.082280","y: 2.082280",null,"y: 3.055324","y: 3.055324",null,"y: 3.055324","y: 3.055324",null,"y: 2.145266","y: 2.145266",null,"y: 2.145266","y: 2.145266",null,"y: 1.488879","y: 1.488879",null,"y: 1.488879","y: 1.488879",null,"y: 1.488879","y: 1.488879",null,"y: 1.488879","y: 1.488879",null,"y: 2.145266","y: 2.145266",null,"y: 2.145266","y: 2.145266",null,"y: 1.643971","y: 1.643971",null,"y: 1.643971","y: 1.643971",null,"y: 1.643971","y: 1.643971",null,"y: 1.643971","y: 1.643971",null,"y: 4.661260","y: 4.661260",null,"y: 4.661260","y: 4.661260",null,"y: 3.053674","y: 3.053674",null,"y: 3.053674","y: 3.053674",null,"y: 2.325284","y: 2.325284",null,"y: 2.325284","y: 2.325284",null,"y: 2.325284","y: 2.325284",null,"y: 2.325284","y: 2.325284",null,"y: 1.660064","y: 1.660064",null,"y: 1.660064","y: 1.660064",null,"y: 1.660064","y: 1.660064",null,"y: 1.660064","y: 1.660064",null,"y: 3.053674","y: 3.053674",null,"y: 3.053674","y: 3.053674",null,"y: 8.390938","y: 8.390938",null,"y: 8.390938","y: 8.390938",null,"y: 8.055631","y: 8.055631",null,"y: 8.055631","y: 8.055631",null,"y: 8.055631","y: 8.055631",null,"y: 8.055631","y: 8.055631",null,"y: 6.475386","y: 6.475386",null,"y: 6.475386","y: 6.475386",null,"y: 5.736156","y: 5.736156",null,"y: 5.736156","y: 5.736156",null,"y: 4.202238","y: 4.202238",null,"y: 4.202238","y: 4.202238",null,"y: 4.202238","y: 4.202238",null,"y: 4.202238","y: 4.202238",null,"y: 3.568880","y: 3.568880",null,"y: 3.568880","y: 3.568880",null,"y: 3.568880","y: 3.568880",null,"y: 3.568880","y: 3.568880",null,"y: 2.307040","y: 2.307040",null,"y: 2.307040","y: 2.307040",null,"y: 2.307040","y: 2.307040",null,"y: 2.307040","y: 2.307040",null,"y: 5.736156","y: 5.736156",null,"y: 5.736156","y: 5.736156",null,"y: 4.465150","y: 4.465150",null,"y: 4.465150","y: 4.465150",null,"y: 4.465150","y: 4.465150",null,"y: 4.465150","y: 4.465150",null,"y: 6.475386","y: 6.475386",null,"y: 6.475386","y: 6.475386"],"type":"scatter","mode":"lines","line":{"width":2.2677165354330708,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"x":[8.3909380969378944,5.7053893289125996,4.8871210088715245,3.9998675859476962,2.3440701478823156,0,0,2.9585923187730834,1.3832662699636999,0,0,1.6185865883069832,0,0,3.071858857267908,2.7026694851649697,0,2.5330567658903949,0,1.1622080511152364,0,0,0,4.6612601256707524,4.0225507769300188,2.2988622762446216,0,1.743379676397677,0,0,3.0553236297711028,2.0822800888640804,1.9297100842698418,1.0048002238626002,0,0,1.624620241257875,0,0,0,2.1452660227861862,1.488878665131391,0,0,1.643970826476733,0,0,3.0536735707233507,2.3252841135267071,0,1.6600641582296576,0,0,0,8.0556308879837584,0,6.4753859311994555,5.736155835747315,4.2022382290518019,0,3.5688799654460368,0,2.3070397898867574,0,0,4.4651497982900983,0,0,0],"y":[22.1484375,13.625,6.21875,3,1.5,1,2,4.5,3.5,3,4,5.5,5,6,9.4375,7.875,7,8.75,8,9.5,9,10,11,21.03125,16.1875,12.75,12,13.5,13,14,19.625,17.75,16.5,15.5,15,16,17.5,17,18,19,21.5,20.5,20,21,22.5,22,23,25.875,24.75,24,25.5,25,26,27,30.671875,28,33.34375,31.6875,29.875,29,30.75,30,31.5,31,32,33.5,33,34,35],"text":["y: 8.390938","y: 5.705389","y: 4.887121","y: 3.999868","y: 2.344070","y: 0.000000","y: 0.000000","y: 2.958592","y: 1.383266","y: 0.000000","y: 0.000000","y: 1.618587","y: 0.000000","y: 0.000000","y: 3.071859","y: 2.702669","y: 0.000000","y: 2.533057","y: 0.000000","y: 1.162208","y: 0.000000","y: 0.000000","y: 0.000000","y: 4.661260","y: 4.022551","y: 2.298862","y: 0.000000","y: 1.743380","y: 0.000000","y: 0.000000","y: 3.055324","y: 2.082280","y: 1.929710","y: 1.004800","y: 0.000000","y: 0.000000","y: 1.624620","y: 0.000000","y: 0.000000","y: 0.000000","y: 2.145266","y: 1.488879","y: 0.000000","y: 0.000000","y: 1.643971","y: 0.000000","y: 0.000000","y: 3.053674","y: 2.325284","y: 0.000000","y: 1.660064","y: 0.000000","y: 0.000000","y: 0.000000","y: 8.055631","y: 0.000000","y: 6.475386","y: 5.736156","y: 4.202238","y: 0.000000","y: 3.568880","y: 0.000000","y: 2.307040","y: 0.000000","y: 0.000000","y: 4.465150","y: 0.000000","y: 0.000000","y: 0.000000"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"transparent","opacity":1,"size":null,"symbol":null,"line":{"width":1.8897637795275593,"color":"transparent"}},"hoveron":"points","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null}],"layout":{"xaxis":{"domain":[0,0.80000000000000004],"automargin":true,"type":"linear","autorange":false,"range":[0.5,10.5],"tickmode":"array","ticktext":["Instrumentalness","Duration (ms)","Acousticness","Speechiness","Tempo","Danceability","Valence","Loudness","Energy","Liveness"],"tickvals":[1,2,3,4,5,6,7,8,9,10],"categoryorder":"array","categoryarray":["Instrumentalness","Duration (ms)","Acousticness","Speechiness","Tempo","Danceability","Valence","Loudness","Energy","Liveness"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.283520132835205},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"xaxis2":{"domain":[0.80000000000000004,1],"automargin":true,"showticklabels":false,"showgrid":false,"zeroline":false,"anchor":"y2","type":"linear","autorange":false,"range":[0,8.3909380969378944],"tickmode":"array","ticktext":["0","2","4","6","8"],"tickvals":[0,2,4,6,8],"categoryorder":"array","categoryarray":["0","2","4","6","8"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"gridcolor":null,"gridwidth":0,"title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"yaxis2":{"domain":[0,0.80000000000000004],"automargin":true,"type":"linear","autorange":false,"range":[0.5,35.5],"tickmode":"array","ticktext":["Öldürme Beni","Neredesin Sen","Ready, Steady, Go!","DIRTY TECH","TIJDSGEEST","NOT TODAY","VIVIENNE","Death of Love","Pick Up The Pieces","Drijfzand","Chains of Love","Didn’t Come To Argue","Eyes of the World featuring Sky F...","Where's My Phone?","Ik Geloof Dat Wij Iets Delen","Golden Sun","Orange County (feat. Bizarrap, Ka...","Aperture","The Moon Cave (feat. Asha Puthli,...","Imidiwan Takyadam - feat. José Go...","Sagherat Assani - feat. Sulafa Elyas","Somebody","Crystal Tears","Y'a d’la joie","I'll Change for You","La Beauté","Warning","Naboo","Purcell: Dido and Aeneas, Z. 626:...","Arakatak","Doesn’t Matter","Piano Sonata No. 2 \"Concord Mass....","Gaspard de la Nuit, M.55: II. Le ...","Purcell: Dido and Aeneas, Z. 626,...","Piano Trio No. 3 in F Minor, Op. ..."],"tickvals":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15.000000000000002,16,17,18,19,20,21,22,23,23.999999999999996,25,26,27,28,29,30,31,32,33,34,35],"categoryorder":"array","categoryarray":["Öldürme Beni","Neredesin Sen","Ready, Steady, Go!","DIRTY TECH","TIJDSGEEST","NOT TODAY","VIVIENNE","Death of Love","Pick Up The Pieces","Drijfzand","Chains of Love","Didn’t Come To Argue","Eyes of the World featuring Sky F...","Where's My Phone?","Ik Geloof Dat Wij Iets Delen","Golden Sun","Orange County (feat. Bizarrap, Ka...","Aperture","The Moon Cave (feat. Asha Puthli,...","Imidiwan Takyadam - feat. José Go...","Sagherat Assani - feat. Sulafa Elyas","Somebody","Crystal Tears","Y'a d’la joie","I'll Change for You","La Beauté","Warning","Naboo","Purcell: Dido and Aeneas, Z. 626:...","Arakatak","Doesn’t Matter","Piano Sonata No. 2 \"Concord Mass....","Gaspard de la Nuit, M.55: II. Le ...","Purcell: Dido and Aeneas, Z. 626,...","Piano Trio No. 3 in F Minor, Op. ..."],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":13.283520132835205},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176002,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"yaxis":{"domain":[0.80000000000000004,1],"automargin":true,"showticklabels":false,"showgrid":false,"zeroline":false,"anchor":"x","type":"linear","autorange":false,"range":[0,11.17754240463538],"tickmode":"array","ticktext":["0","3","6","9"],"tickvals":[0,3,6,9],"categoryorder":"array","categoryarray":["0","3","6","9"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"gridcolor":null,"gridwidth":0,"title":{"text":"","font":{"color":null,"family":null,"size":0}},"hoverformat":".2f"},"annotations":[],"shapes":[],"images":[],"margin":{"t":0,"r":null,"b":127.52179327521796,"l":286.92403486924042},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"y":1,"yanchor":"top"},"hovermode":"closest","barmode":"relative","paper_bgcolor":"rgba(255,255,255,1)","title":""},"attrs":{"e77861907981":{"x":{},"y":{},"xend":{},"yend":{},"colour":{},"linetype":{},"size":{},"type":"scatter"},"e77854193631":{"x":{},"y":{},"colour":{},"shape":{},"size":{}},"e7784334f619":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]},"e77828c64482":{"x":{},"y":{},"fill":{},"text":{},"type":"heatmap"},"e778725ad89b":{"x":{},"y":{},"xend":{},"yend":{},"colour":{},"linetype":{},"size":{},"type":"scatter"},"e7782a42e2c4":{"x":{},"y":{},"colour":{},"shape":{},"size":{}}},"source":"A","config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displaylogo":false,"modeBarButtonsToRemove":["sendDataToCloud","select2d","lasso2d","autoScale2d","hoverClosestCartesian","hoverCompareCartesian","sendDataToCloud"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><strong>Can you determine from the heatmap which features seem to be the most and least useful for the clustering? Try modifying the recipe to find the most effective combination of features.</strong></p>
+</section>
+</section>
+<section id="breakout-3-classification-optional-for-self-study" class="level2">
+<h2 class="anchored" data-anchor-id="breakout-3-classification-optional-for-self-study">Breakout 3: Classification [optional for self-study]</h2>
+<p>In order to demonstrate some of the principles of classification, we will try to identify some of the features that Spotify uses to designate playlists as ‘workout’ playlists. For a full analysis, we would need to delve deeper, but let’s start with a comparison of three playlists: Indie Pop, Indie Party, and Indie Running For speed, this example will work with only the first 20 songs from each playlist, but you should feel free to use more if your computer can handle it. You can download the Exportify CSVs here: - <a href="../dat/indie-pop.csv">Indie Pop</a> - <a href="../dat/indie-party.csv">Indie Party</a> - <a href="../dat/indie-running.csv">Indie Running</a></p>
+<p><strong>After you have this section of the notebook working, try using other combinations of Spotify workout playlists with similarly-named non-workout playlists.</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../dat/indie-pop.csv"</span>, <span class="at">col_types =</span> <span class="st">"ccccDnnlcTccnnnnnnnnnnnn"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>party <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../dat/indie-party.csv"</span>, <span class="at">col_types =</span> <span class="st">"ccccDnnlcTccnnnnnnnnnnnn"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>workout <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../dat/indie-running.csv"</span>, <span class="at">col_types =</span> <span class="st">"ccccDnnlcTccnnnnnnnnnnnn"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>indie <span class="ot">&lt;-</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pop <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Playlist =</span> <span class="st">"Indie Pop"</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    party <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Playlist =</span> <span class="st">"Indie Party"</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    workout <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">Playlist =</span> <span class="st">"Indie Running"</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>As you think about this lab session – and your portfolio – think about the four kinds of validity that Sturm and Wiggins discussed in our reading for last week. Do these projects have:</p>
+<ul>
+<li>Statistical validity [somewhat beyond the scope of this course]?</li>
+<li>Content validity?</li>
+<li>Internal validity?</li>
+<li>External validity?</li>
+</ul>
+<section id="pre-processing-1" class="level3">
+<h3 class="anchored" data-anchor-id="pre-processing-1">Pre-processing</h3>
+<p>Remember that in the <code>tidymodels</code> approach, we can preprocess data with a <code>recipe</code>. In this case, instead of a label for making the cluster plots readable, we use the label for the class that we want to predict.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>indie_recipe <span class="ot">&lt;-</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recipe</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    Playlist <span class="sc">~</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      Danceability <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      Energy <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      Loudness <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      Speechiness <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      Acousticness <span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      Instrumentalness <span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>      Liveness <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      Valence <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>      Tempo <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">`</span><span class="at">Duration (ms)</span><span class="st">`</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> indie                    <span class="co"># Use the same name as the previous block.</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_center</span>(<span class="fu">all_predictors</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_scale</span>(<span class="fu">all_predictors</span>())      <span class="co"># Converts to z-scores.</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># step_range(all_predictors())    # Sets range to [0, 1].</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="cross-validation">Cross-Validation</h3>
+<p>The <code>vfold_cv</code> function sets up cross-validation. We will use 5-fold cross-validation here in the interest of speed, but 10-fold cross-validation is more typical.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>indie_cv <span class="ot">&lt;-</span> indie <span class="sc">|&gt;</span> <span class="fu">vfold_cv</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="classification-algorithms" class="level3">
+<h3 class="anchored" data-anchor-id="classification-algorithms">Classification Algorithms</h3>
+<p>Your optional DataCamp tutorials this week introduced four classical algorithms for classification: <span class="math inline">\(k\)</span>-nearest neighbour, naive Bayes, logistic regression, and decision trees. Other than naive Bayes, all of them can be implemented more simply in <code>tidymodels</code>.</p>
+<section id="k-nearest-neighbour" class="level4">
+<h4 class="anchored" data-anchor-id="k-nearest-neighbour"><em>k</em>-Nearest Neighbour</h4>
+<p>A <span class="math inline">\(k\)</span>-nearest neighbour classifier often works just fine with only one neighbour. It is very sensitive to the choice of features, however. Let’s check the performance as a baseline.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>knn_model <span class="ot">&lt;-</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nearest_neighbor</span>(<span class="at">neighbors =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"kknn"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>indie_knn <span class="ot">&lt;-</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(indie_recipe) <span class="sc">|&gt;</span> </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(knn_model) <span class="sc">|&gt;</span> </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(indie_cv, <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>indie_knn <span class="sc">|&gt;</span> <span class="fu">get_conf_mat</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+ℹ Please use `all_of()` or `any_of()` instead.
+  # Was:
+  data %&gt;% select(outcome)
+
+  # Now:
+  data %&gt;% select(all_of(outcome))
+
+See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Truth
+Prediction      Indie Party Indie Pop Indie Running
+  Indie Party             6         6             6
+  Indie Pop               5         9             5
+  Indie Running           9         5             9</code></pre>
+</div>
+</div>
+<p>These matrices <code>autoplot</code> in two forms.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>indie_knn <span class="sc">|&gt;</span> <span class="fu">get_conf_mat</span>() <span class="sc">|&gt;</span> <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"mosaic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="compmus2026-w12_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>indie_knn <span class="sc">|&gt;</span> <span class="fu">get_conf_mat</span>() <span class="sc">|&gt;</span> <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"heatmap"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="compmus2026-w12_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can also compute precision and recall for each class.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>indie_knn <span class="sc">|&gt;</span> <span class="fu">get_pr</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  class         precision recall
+  &lt;fct&gt;             &lt;dbl&gt;  &lt;dbl&gt;
+1 Indie Party       0.333   0.3 
+2 Indie Pop         0.474   0.45
+3 Indie Running     0.391   0.45</code></pre>
+</div>
+</div>
+</section>
+<section id="random-forests" class="level4">
+<h4 class="anchored" data-anchor-id="random-forests">Random Forests</h4>
+<p>Random forests are a more powerful variant of the decision-tree algorithm you learned about on DataCamp. Although no single classifier works best for all problems, in practice, random forests are among the best-performing off-the-shelf algorithms for many real-world use cases.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>forest_model <span class="ot">&lt;-</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rand_forest</span>() <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>, <span class="at">importance =</span> <span class="st">"impurity"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>indie_forest <span class="ot">&lt;-</span> </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(indie_recipe) <span class="sc">|&gt;</span> </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(forest_model) <span class="sc">|&gt;</span> </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    indie_cv, </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>indie_forest <span class="sc">|&gt;</span> <span class="fu">get_pr</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  class         precision recall
+  &lt;fct&gt;             &lt;dbl&gt;  &lt;dbl&gt;
+1 Indie Party       0.381   0.4 
+2 Indie Pop         0.55    0.55
+3 Indie Running     0.526   0.5 </code></pre>
+</div>
+</div>
+<p>Random forests also give us a ranking of <em>feature importance</em>, which is a measure of how useful each feature in the recipe was for distinguishing the ground-truth classes. We can plot it with <code>randomForest::varImpPlot</code>. It is clear that acousticness and liveness are important. Note that because random forests are indeed random, the accuracy and feature rankings will vary (slightly) every time you re-run the code.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(indie_recipe) <span class="sc">|&gt;</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(forest_model) <span class="sc">|&gt;</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(indie) <span class="sc">|&gt;</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"fit"</span>, <span class="st">"fit"</span>, <span class="st">"fit"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  ranger<span class="sc">::</span><span class="fu">importance</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">fct_reorder</span>(name, value)) <span class="sc">|&gt;</span> </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(name, value)) <span class="sc">+</span> </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Importance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="compmus2026-w12_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Armed with this feature set, perhaps we can make a better plot. It’s clear that the running playlist is low on acousticness, but the party music overlaps heavily with it and also spreads out into the wider acousticness and brightness range of Indie Pop.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>indie <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Acousticness, <span class="at">y =</span> Liveness, <span class="at">colour =</span> Playlist, <span class="at">size =</span> Energy)) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Acousticness"</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Liveness"</span>,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Energy"</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Playlist"</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="compmus2026-w12_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Can you get a clearer visualisation by using a different set of the top features from the random forest?</strong></p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
