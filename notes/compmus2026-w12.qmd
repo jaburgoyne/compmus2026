@@ -68,7 +68,7 @@ get_pr <- function(fit) {
 
 The *NRC*, one of the Dutch national newspapers, maintains a [Spotify playlist](https://open.spotify.com/playlist/5tuYtDM305tknEs94i8F5P) that their music editors feel represents the best new music of the moment.
 Perhaps clustering can help us organise and describe what kinds of musical selections make it onto the list.
-You can download an [Exportify](https://exportify.net) CSV of this list [here](../data/nrc.csv).
+You can download an [Exportify](https://exportify.net) CSV of this list [here](../dat/nrc.csv).
 
 ```{r}
 nrc <- read_csv("../dat/nrc.csv")
